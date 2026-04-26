@@ -1,0 +1,84 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["6f76de55f5656742.olean"],
+  "i": "6c43471966e304a6.ilean",
+  "c": "5bfab55ae5b2a473.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\packages\\Cli\\.lake\\build\\lib\\lean;C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\packages\\batteries\\.lake\\build\\lib\\lean;C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\packages\\Qq\\.lake\\build\\lib\\lean;C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\packages\\aesop\\.lake\\build\\lib\\lean;C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\packages\\proofwidgets\\.lake\\build\\lib\\lean;C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\packages\\importGraph\\.lake\\build\\lib\\lean;C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\packages\\LeanSearchClient\\.lake\\build\\lib\\lean;C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\packages\\plausible\\.lake\\build\\lib\\lean;C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\packages\\mathlib\\.lake\\build\\lib\\lean;C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\build\\lib\\lean c:\\Users\\louis\\.elan\\toolchains\\leanprover--lean4---v4.28.0\\bin\\lean.exe C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\RequestProject\\Audit.lean -o C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\build\\lib\\lean\\RequestProject\\Audit.olean -i C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\build\\lib\\lean\\RequestProject\\Audit.ilean -c C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\build\\ir\\RequestProject\\Audit.c --setup C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\.lake\\build\\ir\\RequestProject\\Audit.setup.json --json",
+   "level": "trace"},
+  {"message":
+   "RequestProject/Audit.lean:26:0: 'CMF.ZZ' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:29:0: 'CMF.pathProd_append' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:30:0: 'CMF.pathEnd_append' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:31:0: 'CMF.pathEnd_eq_start_add_counts' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:34:0: 'pathIndep' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:38:0: 'PolyCMF.toCMF' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:41:0: 'AntiCMF.anti_eq' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:42:0: 'AntiCMF.two_step_closure' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:43:0: 'SuperCMF.S_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:44:0: 'SuperCMF.T_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:47:0: 'pauliAntiCMF' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:48:0: 'S_plus_T_c1' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"},
+  {"message":
+   "RequestProject/Audit.lean:49:0: 'not_comm_c1' depends on axioms: [propext, Classical.choice, Quot.sound]",
+   "level": "info"}],
+ "inputs":
+ [["RequestProject.Audit:deps",
+   [["deps",
+     [["RequestProject/RequestProject:extraDep",
+       [["@RequestProject:extraDep", "00000000000006bb"]]],
+      ["imports",
+       [["RequestProject.CMF transitive imports (legacy)", "12c1ba7185138d42"],
+        ["RequestProject.CMF:importAllArts", "e0041c2dd8cfd655"],
+        ["RequestProject.PathProducts transitive imports (legacy)",
+         "3724165b2e53d6ef"],
+        ["RequestProject.PathProducts:importAllArts", "e07acf5d6cbc6d17"],
+        ["RequestProject.PathIndep transitive imports (legacy)",
+         "6a2a8e5493a5718f"],
+        ["RequestProject.PathIndep:importAllArts", "91d8a6fd560fd38d"],
+        ["RequestProject.PolyCMF transitive imports (legacy)",
+         "6a9aec9d9f07f836"],
+        ["RequestProject.PolyCMF:importAllArts", "39a3fe22e59c8b68"],
+        ["RequestProject.SuperCMF transitive imports (legacy)",
+         "255b83bee2b48a11"],
+        ["RequestProject.SuperCMF:importAllArts", "2c78bf5c87b80546"],
+        ["RequestProject.PauliCMF transitive imports (legacy)",
+         "6df17bbba9ebd5d1"],
+        ["RequestProject.PauliCMF:importAllArts", "ab1b2cd335b374ee"]]]]],
+    ["libs",
+     [["import dynlibs", "00000000000006bb"],
+      ["package external libraries", "00000000000006bb"],
+      ["module dynlibs", "00000000000006bb"],
+      ["module plugins", "00000000000006bb"]]]]],
+  ["Lean 4.28.0, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b",
+   "a96bc04a2e5e9630"],
+  ["C:\\Windows\\System32\\math_research\\CMF\\lean\\cmf-aristotle\\path-product_aristotle\\RequestProject\\Audit.lean",
+   "5a2968c80c04a9eb"],
+  ["options", "00000000000006bb"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "4c27f54220055442"}
