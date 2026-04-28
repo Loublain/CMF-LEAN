@@ -1,9 +1,17 @@
+/-
+# CMF Formalization Project
+Repository: https://github.com/Loublain/cmf-gaussian-primes
+All theorems machine-verified in Lean 4 / Mathlib4.
+Axioms: propext, Classical.choice, Quot.sound only.
+-/
+
 import RequestProject.CMF
 import RequestProject.PathProducts
 import RequestProject.PathIndep
 import RequestProject.PolyCMF
 import RequestProject.SuperCMF
 import RequestProject.PauliCMF
+import RequestProject.ZetaPairs
 
 /-!
 # Axiom Audit
@@ -47,3 +55,9 @@ Update this file whenever a new main theorem is added.
 #print axioms pauliAntiCMF
 #print axioms S_plus_T_c1
 #print axioms not_comm_c1
+
+-- ZetaPairs.lean
+#print axioms ZetaPair.fromSuper
+#print axioms AntiCMF.sign_flip
+#print axioms AntiCMF.sign_flip_add
+#print axioms AntiCMF.sq_symmetric
