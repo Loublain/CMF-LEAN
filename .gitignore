@@ -1,1 +1,17 @@
-/.lake
+# Lake build artifacts
+.lake/
+
+# Lean compiled files
+*.olean
+*.ilean
+*.c
+*.o
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
+*~
