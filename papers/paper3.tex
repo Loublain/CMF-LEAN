@@ -1,0 +1,709 @@
+% Preamble for CMF research papers.
+% Defines the document class, fonts, theorem styles, and unicode mappings.
+% Used by paper1.tex / paper2.tex / paper3.tex (which inline this content).
+% To regenerate a self-contained paperN.tex from a body file:
+%   cat preamble.tex paperN.body.tex > paperN.tex
+% Compile with: xelatex paperN.tex
+%
+% This preamble does NOT include the \title/\author commands —
+% those are at the top of each paperN.body.tex (paper-specific).
+
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+
+% Use xelatex with TeX Gyre Termes (Times equivalent) for body and math
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{TeX Gyre Termes}
+\setmonofont{DejaVu Sans Mono}[Scale=0.85]
+\setmathfont{Latin Modern Math}[Scale=MatchLowercase]
+
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{etoolbox}
+\usepackage{makecell}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage{fvextra}
+
+% Enable pandoc's syntax-highlighted code-block environment.
+
+% Tighter spacing
+\setlength{\parskip}{0.5\baselineskip}
+\setlength{\parindent}{0pt}
+
+% Section heading style: bold, smaller than default. The markdown text already
+% includes the section number ("## 1. Introduction"), so we suppress LaTeX's
+% auto-numbering here.
+\usepackage{titlesec}
+\titleformat{\section}[block]{\normalsize\bfseries}{}{0pt}{}
+\titleformat{\subsection}[block]{\normalsize\bfseries}{}{0pt}{}
+\titleformat{\subsubsection}[block]{\normalsize\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{1.2\baselineskip}{0.4\baselineskip}
+\titlespacing*{\subsection}{0pt}{1.0\baselineskip}{0.3\baselineskip}
+
+% Pandoc-required commands
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+
+% Custom title block (centered, matching v2 style)
+\makeatletter
+\renewcommand\maketitle{%
+  \begingroup
+  \begin{center}
+    \LARGE\bfseries \@title \par
+  \end{center}
+  \ifx\@subtitle\@empty\else
+    \vspace{0.4em}
+    \begin{center}
+      \itshape \@subtitle \par
+    \end{center}
+  \fi
+  \vspace{0.6em}
+  \begin{center}
+    \@author \par
+    \vspace{0.2em}
+    Correspondence: \@correspondence \par
+    \vspace{0.2em}
+    \@date \par
+  \end{center}
+  \vspace{1em}
+  \endgroup
+}
+\def\@subtitle{}
+\newcommand{\subtitleX}[1]{\def\@subtitle{#1}}
+\def\@correspondence{}
+\newcommand{\correspondenceX}[1]{\def\@correspondence{#1}}
+\makeatother
+
+% Custom abstract: bold heading centered, indented body
+\renewenvironment{abstract}{%
+  \begin{center}\bfseries Abstract\end{center}%
+  \begin{quote}\setlength{\parindent}{0pt}}{\end{quote}\medskip}
+
+% Keywords command
+\newcommand{\keywordsX}[1]{%
+  \begin{quote}\setlength{\parindent}{0pt}\textbf{Keywords:} #1\end{quote}}
+
+\begin{document}
+% Paper-specific metadata
+\title{A Family of Mathematical Constants Indexed by Gaussian Primes}
+
+\author{Louis Blaine}
+\correspondenceX{louisblaine45@gmail.com}
+\date{March 2026}
+
+% Body
+\maketitle
+
+\begin{abstract}
+We identify an infinite family of mathematical constants, one for each
+Gaussian prime \(\pi\) of the ring \(\mathbb{Z}\){[}i{]} of Gaussian
+integers, each verified absent from the OEIS, Wolfram Alpha, and ISC
+databases at the precision tested. The constant associated to \(\pi\) is
+c\_\(\pi\) = \textbar Im(z)/Re(z)\textbar{} where z =
+\(\Gamma\)(1+w/2)/\(\Gamma\)(1/2+w/2) and w = \(\pi\)/N(\(\pi\)).
+Constants arise from split primes p\(\equiv\) 1 (mod 4) and from the
+ramified prime 2, but not from inert primes p\(\equiv\) 3 (mod 4).
+Conjugate primes \(\pi\), \(\bar{\pi}\) give equal
+\textbar c\_\(\pi\)\textbar{} but opposite angles S(\(\pi\)) =
+−S(\(\bar{\pi}\)). Among the Gaussian units, S\_i + S\_\{−i\} =
+\(\pi\)/4 is proved via hyperbolic identities. Among associates of the
+ramified prime above 2, the associates \(\pi\) \(\in\) \{−1+i, −1−i\}
+satisfy S\_\(\pi\) + S\_\{\(\bar{\pi}\)(shifted)\} = \(\pm \pi\)/4 (a
+direct analogue of the unit identity). For every other Gaussian prime of
+norm \(\geq\) 2, including all four associates of every split prime,
+(S\_\(\pi\) + S\_\{\(\bar{\pi}\)(shifted)\})/\(\pi\) is irrational, via
+an explicit closed form S\_\(\pi\) + S\_\{\(\bar{\pi}\)(shifted)\} =
+arctan(b/(N+a)) and Niven's theorem. The moduli
+\textbar c\_\(\pi\)\textbar{}\textsuperscript{2} admit elementary closed
+forms in the unit case Re(w) = 0; we conjecture no such closed form
+exists for Re(w) \(\neq\) 0 (Proposition 3.5). We propose a Class III
+transcendence classification via non-unitary Kummer monodromy (Theorem
+6.1) and state a conjecture connecting the family to periods of CM
+elliptic curves.
+\end{abstract}
+
+\keywordsX{Gaussian primes, complex Gamma function, conservative matrix
+field, CM elliptic curves, Shimura conjecture, Gaussian integers,
+mathematical constants}
+
+\hypertarget{introduction}{%
+\section{1. Introduction}\label{introduction}}
+
+In two companion papers {[}1, 2{]} we identified five constants arising
+from anticommutative Pauli CMF matrix products and gave exact closed
+forms as tangents of arguments of complex Gamma function ratios. The
+present paper reveals the number-theoretic organising principle. The
+formula
+
+\[c_\pi = |{\rm Im}(z)/{\rm Re}(z)|, \quad z = \frac{\Gamma(1+w/2)}{\Gamma(1/2+w/2)}, \quad w = \pi/N(\pi)\]
+
+defines a well-formed constant for every Gaussian prime \(\pi\). Once
+this formula is in hand, the remainder of the analysis is carried out
+entirely in the setting of complex Gamma-function ratios and the
+arithmetic of \(\mathbb{Z}\){[}i{]}; no further reference to the CMF
+derivation is required. The CMF algebraic framework underlying the
+construction is formalized in Lean 4 at
+github.com/Loublain/cmf-gaussian-primes; the analytic content of the
+present paper is not formalized. The structure is governed entirely by
+the splitting behaviour of rational primes in \(\mathbb{Z}\){[}i{]}:
+split primes p\(\equiv\)1 (mod 4) contribute, the ramified prime 2
+contributes, and inert primes p\(\equiv\)3 (mod 4) do not.
+
+\hypertarget{definition-and-basic-properties}{%
+\section{2. Definition and Basic
+Properties}\label{definition-and-basic-properties}}
+
+A rational prime p behaves in one of three ways in
+\(\mathbb{Z}\){[}i{]}:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Splits} if p\(\equiv\)1 (mod 4): p = \(\bar{\pi}\pi\) for a
+  Gaussian prime \(\pi\) with N(\(\pi\)) = p.~Examples: 5 = (2+i)(2−i),
+  13 = (3+2i)(3−2i).
+\item
+  \textbf{Ramifies} if p = 2: 2 = −i(1+i)\textsuperscript{2}, the
+  Gaussian prime (1+i) has norm 2.
+\item
+  \textbf{Remains inert} if p\(\equiv\)3 (mod 4): p itself is a Gaussian
+  prime of norm p\textsuperscript{2}. Examples: 3, 7, 11, 19, 23.
+\end{itemize}
+
+\textbf{Definition 2.1.} For a Gaussian prime \(\pi\) \(\in\)
+\(\mathbb{Z}\){[}i{]}, define c\_\(\pi\) =
+\textbar Im(z)/Re(z)\textbar{} where z =
+\(\Gamma\)(1+w/2)/\(\Gamma\)(1/2+w/2) and w = \(\pi\)/N(\(\pi\)) \(\in\)
+\(\mathbb{Q}\)(i). Equivalently, c\_\(\pi\) =
+\textbar tan(S\_\(\pi\))\textbar{} where S\_\(\pi\) = Arg(z) is the
+principal-branch argument.\textsuperscript{1}
+
+\textbf{Definition 2.2.} For a Gaussian prime \(\pi\) = a+bi with
+conjugate \(\bar{\pi}\) = a−bi, define the shifted angle
+S\_\{\(\bar{\pi}\)(shifted)\} =
+Arg(\(\Gamma\)(1+w̄/2)/\(\Gamma\)(3/2+w̄/2)) where w̄ =
+\(\bar{\pi}\)/N(\(\pi\)). The shift refers to the denominator exponent:
+1/2 is replaced by 3/2, equivalently \(\Gamma\)(3/2+z) =
+(1/2+z)\(\Gamma\)(1/2+z).
+
+\hypertarget{conventions-and-branch-stability}{%
+\subsection{2.3. Conventions and branch
+stability}\label{conventions-and-branch-stability}}
+
+We use the principal branch Arg : \(\mathbb{C}\)* \(\to\) (−\(\pi\),
+\(\pi\){]} throughout. The definition c\_\(\pi\) =
+\textbar tan(S\_\(\pi\))\textbar{} is invariant under S\_\(\pi\)
+\(\mapsto\) S\_\(\pi\) + \(\pi\) (the period of tan), and admits the
+manifestly branch-free equivalent form c\_\(\pi\) =
+\textbar Im(z)/Re(z)\textbar{} when Re(z) \(\neq\) 0.
+
+\textbf{Stability lemma.} Numerical evaluation at 120-digit precision
+(mpmath, mp.dps = 120) confirms Re(z) \textgreater{} 0 for every
+Gaussian prime \(\pi\) of norm N(\(\pi\)) \(\leq\) 41 (all entries of
+Table 1). For these primes, Arg(z) \(\in\) (−\(\pi\)/2, \(\pi\)/2)
+strictly, so S\_\(\pi\) lies in the interior of the principal-branch
+range and the additive identities of Theorems 3.3 and 3.4 involve no
+branch-cut crossings. We conjecture Re(z) \textgreater{} 0 for all
+Gaussian primes; a proof would follow from establishing that
+\(\Gamma\)(1+w/2) and \(\Gamma\)(1/2+w/2) lie in the same open
+half-plane through \(\mathbb{C}\)*.
+
+\hypertarget{relation-to-classical-hypergeometric-theory}{%
+\subsection{2.4. Relation to classical hypergeometric
+theory}\label{relation-to-classical-hypergeometric-theory}}
+
+The Beta decomposition (Theorem 3.6 below), S\_\(\pi\) = arg(\(\pi\)) +
+arg(B(w/2, 1/2)), connects the family directly to the Euler Beta
+function B(a,b) = \(\Gamma(a)\Gamma\)(b)/\(\Gamma\)(a+b). For the Gauss
+hypergeometric function, \textsubscript{2}F\textsubscript{1}(w/2, 1/2;
+w/2+1/2; 1) = \(\Gamma(w/2+1/2−1/2)\Gamma\)(w/2+1/2) /
+{[}\(\Gamma(w/2)\Gamma\)(w/2+1/2−w/2+1/2){]} is closely related to our
+ratio {[}7, §13.2{]}. The Möbius recursion underlying these constants
+(see companion paper {[}2{]}) belongs to the Poincaré--Perron family of
+linear difference equations with polynomial coefficients, whose general
+theory is treated in Jones--Thron {[}8{]}; the recursion z\_k =
+(r(k)z+p(k))/(p(k)z−r(k)) is of Möbius type with polynomial r,p.~The CMF
+framework identifies the specific family arising in this paper as the
+one where the Pauli anticommutation forces the involutive structure (see
+{[}2, §2.1{]}).
+
+\hypertarget{structural-theorems}{%
+\section{3. Structural Theorems}\label{structural-theorems}}
+
+\textbf{Theorem 3.1} (Conjugation Symmetry). S\_\{\(\bar{\pi}\)\} =
+−S\_\(\pi\) and \textbar c\_\{\(\bar{\pi}\)\}\textbar{} =
+\textbar c\_\(\pi\)\textbar.
+
+\emph{Proof.} The conjugate prime \(\bar{\pi}\) has w̄ = conj(w). Since
+\(\Gamma\)(conj(z)) = conj(\(\Gamma\)(z)),
+Arg(\(\Gamma\)(1+w̄/2)/\(\Gamma\)(1/2+w̄/2)) =
+−Arg(\(\Gamma\)(1+w/2)/\(\Gamma\)(1/2+w/2)). \(\square\)
+
+\textbf{Theorem 3.2} (Inert Prime Theorem). For p\(\equiv\)3 (mod 4)
+there is no Gaussian prime \(\pi\) \(\in\) \(\mathbb{Z}\){[}i{]} with
+N(\(\pi\)) = p, so the formula w = \(\pi\)/N(\(\pi\)) does not define a
+constant c\_\(\pi\) for inert primes.
+
+\emph{Proof.} N(a+bi) = a\textsuperscript{2}+b\textsuperscript{2}=p
+would require p to be a sum of two squares. By Fermat's theorem on sums
+of two squares {[}6{]}, p is such a sum iff p=2 or p\(\equiv\)1 (mod 4).
+For p\(\equiv\)3 (mod 4) no representation exists. \(\square\)
+
+\textbf{Theorem 3.3} (Unit Identity). S\_i + S\_\{−i(shifted)\} =
+\(\pi\)/4. {[}Proved in {[}2, Theorem 4.1{]}: the combined Gamma ratio
+equals coth(\(\pi\)/2)\(\cdot\)(1+i)/2, whose argument is \(\pi\)/4.{]}
+
+\textbf{Remark.} Theorem 3.4 below shows that this identity extends to
+the associates \(\pi\) \(\in\) \{−1+i, −1−i\} of the ramified prime,
+with the same value \(\pm \pi\)/4. These are the only Gaussian primes of
+norm \(\geq\) 2 for which an identity of this form holds.
+
+\textbf{Theorem 3.4.} Let \(\pi\) = a + bi be a Gaussian prime with
+N(\(\pi\)) \(\geq\) 2 and w = \(\pi\)/N(\(\pi\)). Then
+
+\[S_\pi + S_{\bar\pi(\text{shifted})} = \arctan\!\left(\frac{b}{N(\pi) + a}\right).\]
+
+The ratio (S\_\(\pi\) + S\_\{\(\bar{\pi}\)(shifted)\})/\(\pi\) is
+rational if and only if \(\pi\) \(\in\) \{−1+i, −1−i\}, in which case it
+equals \(\pm\)1/4. For every other Gaussian prime of norm \(\geq\) 2 ---
+every associate of every split prime, and the associates 1+i, 1−i of the
+ramified prime above 2 --- the ratio is irrational.
+
+\emph{Proof.} Write R(w) := \(\Gamma(1+w/2)\cdot \Gamma\)(1+w̄/2) /
+{[}\(\Gamma(1/2+w/2)\cdot \Gamma\)(3/2+w̄/2){]}, so that S\_\(\pi\) +
+S\_\{\(\bar{\pi}\)(shifted)\} = Arg R(w). We apply two elementary
+identities:
+
+\begin{enumerate}
+\def\labelenumi{(\roman{enumi})}
+\item
+  \(\Gamma\)(z̄) = \(\Gamma\)(z)‾ for every z, hence
+  \(\Gamma(z)\cdot \Gamma\)(z̄) =
+  \textbar{}\(\Gamma\)(z)\textbar{}\textsuperscript{2} is a positive
+  real.
+\item
+  \(\Gamma\)(3/2 + w̄/2) = (1/2 + w̄/2)\(\cdot \Gamma\)(1/2 + w̄/2).
+\end{enumerate}
+
+Applying (i): numerator =
+\textbar{}\(\Gamma\)(1+w/2)\textbar{}\textsuperscript{2}, denominator =
+(1/2+w̄/2)\(\cdot\)\textbar{}\(\Gamma\)(1/2+w/2)\textbar{}\textsuperscript{2}.
+Therefore
+
+\[R(w) = \left|\frac{\Gamma(1+w/2)}{\Gamma(1/2+w/2)}\right|^2 \cdot \frac{1}{1/2+\bar{w}/2}.\]
+
+The first factor is a positive real, so Arg R(w) = −Arg(1/2+w̄/2). For w
+= (a+bi)/N, we have 1/2+w̄/2 = (N+a−bi)/(2N). Since N+a \textgreater{} 0
+(as N \(\geq\) 2 forces N \textgreater{} \textbar a\textbar), its
+argument is −arctan(b/(N+a)), giving the closed form.
+
+For the rationality classification, Niven's theorem (1956) states that
+arctan(q)/\(\pi\) is rational for q \(\in\) \(\mathbb{Q}\) only when q
+\(\in\) \{0, \(\pm\)1\}. The case b = 0 is impossible for norm \(\geq\)
+2 non-inert primes. The cases q = \(\pm\)1 give b = \(\pm\)(N+a),
+i.e.~(a + ½)\textsuperscript{2} + (b \(\mp\) ½)\textsuperscript{2} = ½,
+a circle of radius 1/\(\sqrt{2}\). The integer points on this circle are
+(0,0), (0,\(\pm\)1), (−1,0), (−1,\(\pm\)1). Excluding non-primes and
+units leaves exactly \(\pi\) \(\in\) \{−1+i, −1−i\}. \(\square\)
+
+\textbf{Proposition 3.5} (Hyperbolic Closed Form, Unit Case). Let
+\(\pi\) \(\in\) \(\mathbb{Z}\){[}i{]} be a Gaussian prime or unit, w =
+\(\pi\)/N(\(\pi\)), and R(w) = \(\Gamma\)(1+w/2)/\(\Gamma\)(1/2+w/2).
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\tightlist
+\item
+  If Re(w) = 0 --- equivalently \(\pi\) = \(\pm\)i --- then
+\end{enumerate}
+
+\[|R(w)|^2 = \frac{w}{2i} \cdot \coth\!\left(\frac{\pi w}{2i}\right),\]
+
+which equals (1/2) coth(\(\pi\)/2) for \(\pi\) = \(\pm\)i.
+
+\begin{enumerate}
+\def\labelenumi{(\alph{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  If Re(w) \(\neq\) 0, no expression for
+  \textbar R(w)\textbar{}\textsuperscript{2} has been found inside the
+  ring generated over \(\mathbb{Q}(\pi\)) by \{cosh(q\(\pi\)),
+  sinh(q\(\pi\)) : q \(\in\) \(\mathbb{Q}\)\}. Extensive PSLQ searches
+  to 120 decimal digits with coefficient bound 10\textsuperscript{6} are
+  null for every Gaussian prime of norm \(\leq\) 41 (§6.5). We
+  conjecture that no such expression exists.
+\end{enumerate}
+
+\emph{Proof of (a).} For w = it, t \(\in\) \(\mathbb{R}\), the
+reflection formula \(\Gamma(z)\Gamma\)(1−z) = \(\pi\)/sin(\(\pi\)z) at z
+= 1/2 + it/2 gives
+\textbar{}\(\Gamma\)(1/2+it/2)\textbar{}\textsuperscript{2} =
+\(\pi\)/cosh(\(\pi\)t/2); combined with \(\Gamma\)(z+1) = z\(\Gamma\)(z)
+at z = it/2 it gives
+\textbar{}\(\Gamma\)(1+it/2)\textbar{}\textsuperscript{2} = \(\pi\)t/(2
+sinh(\(\pi\)t/2)). Dividing yields (t/2) coth(\(\pi\)t/2), matching the
+stated formula with w = it. \(\square\)
+
+\textbf{Remark} (structural obstruction underlying (b)). The identity
+\textbar{}\(\Gamma\)(z)\textbar{}\textsuperscript{2} =
+\(\Gamma(z)\Gamma\)(z̄) admits a closed form via integer translation and
+reflection precisely when Re(z) \(\in\) (1/2)\(\mathbb{Z}\), since only
+then does z̄ lie in the orbit of z under integer translation and
+reflection alone. For Re(w) \(\neq\) 0, both z = 1 + w/2 and z = 1/2 +
+w/2 fail this condition (0 \textless{} \textbar a\textbar/N \textless{}
+1 implies Re(z) \(\notin\) (1/2)\(\mathbb{Z}\)), so any such derivation
+must invoke the Gauss multiplication formula, which produces
+product-level rather than individual Gamma relations. The resulting
+system is under-determined; our conjecture is that no algebraic
+specialisation closes it, but we do not prove this.
+
+\textbf{Remark 3.5.1.} Proposition 3.5 concerns the individual Gamma
+ratio \(\Gamma\)(1+w/2)/\(\Gamma\)(1/2+w/2). The bilinear combination
+with its complex conjugate that appears in Theorem 3.4 is elementary for
+every Gaussian prime \(\pi\) with N(\(\pi\)) \(\geq\) 2 (it equals
+1/(1/2+w̄/2), up to the real positive factor
+\textbar{}\(\Gamma\)(1+w/2)/\(\Gamma\)(1/2+w/2)\textbar{}\textsuperscript{2}).
+This illustrates that the proposed Class III nature of the individual
+constants S\_\(\pi\) is compatible with elementary closed forms for
+specific symmetric combinations. The proposed Class III classification
+in §6 applies to the individual S\_\(\pi\) (and to their Hurwitz-zeta
+derivatives, by §6.5), not to every algebraic combination thereof.
+
+\textbf{Theorem 3.6} (Beta Decomposition). S\_\(\pi\) = arg(\(\pi\)) +
+arg(B(w/2, 1/2)) where B(a,b) = \(\Gamma(a)\Gamma\)(b)/\(\Gamma\)(a+b).
+
+\emph{Proof.} \(\Gamma\)(1+w/2) = (w/2)\(\Gamma\)(w/2), so
+\(\Gamma\)(1+w/2)/\(\Gamma\)(1/2+w/2) =
+(w/2)\(\cdot\)B(w/2,1/2)/\(\sqrt{\pi}\). Taking arguments: S\_\(\pi\) =
+arg(w/2) + arg(B) = arg(\(\pi\)) + arg(B). \(\square\)
+
+\hypertarget{computed-values}{%
+\section{4. Computed Values}\label{computed-values}}
+
+Table 1 gives the first members of the family, computed to 18
+significant figures using mpmath (mp.dps = 80). Each value has been
+verified absent from the OEIS, Wolfram Alpha, and the ISC database at
+the precision tested.
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\(\pi\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+N(\(\pi\))
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Rational prime behaviour
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+c\_\(\pi\)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+i & 1 & unit & 0.554996111573619503\ldots{} \\
+−i & 1 & unit & 0.554996111573619503\ldots{} \\
+1+i & 2 & 2 ramified & 0.207879576350761908\ldots{} \\
+−(1+i) & 2 & 2 ramified & 0.655794202632672435\ldots{} \\
+2+i & 5 & 5 split, 1 mod 4 & 0.092546110069323602\ldots{} \\
+−(2+i) & 5 & 5 split, 1 mod 4 & 0.247582218708610699\ldots{} \\
+3+2i & 13 & 13 split, 1 mod 4 & 0.083005998252748272\ldots{} \\
+3−2i & 13 & 13 split, 1 mod 4 & 0.083005998252748272\ldots{} \\
+4+i & 17 & 17 split, 1 mod 4 & 0.031720900524284986\ldots{} \\
+5+2i & 29 & 29 split, 1 mod 4 & 0.039548684965468606\ldots{} \\
+6+i & 37 & 37 split, 1 mod 4 & 0.015673823447039764\ldots{} \\
+5+4i & 41 & 41 split, 1 mod 4 & 0.058872673342944218\ldots{} \\
+\end{longtable}
+
+\textbf{Table 1.} Gaussian prime constants to 18 significant figures.
+
+\hypertarget{reconciliation-with-the-original-five-constants}{%
+\section{5. Reconciliation with the Original Five
+Constants}\label{reconciliation-with-the-original-five-constants}}
+
+The five constants of {[}1, 2{]} appear in Table 1: c\textsubscript{1} =
+c\_i, c\textsubscript{4} = c\_\{−(2+i)\}, c\textsubscript{5} =
+c\_\{1+i\}. The constant c\textsubscript{3} uses a mixed-shift formula
+related to c\_\{−i\} (Theorem 3.3). The constant c\textsubscript{2} is
+composite: its closed form involves \(\sqrt{1−8i}\), whose norm is 65 =
+5\(\times\)13, connecting it to the Gaussian primes (2+i) and (3+2i)
+simultaneously. Specifically S\textsubscript{2} =
+S(r\textsubscript{1})+S(r\textsubscript{2}) where r\textsubscript{1},
+r\textsubscript{2} are roots of 4iz\textsuperscript{2}+(1−4i)z+i=0, and
+these roots live in the ring class field compositum \(\mathbb{Q}\)(i,
+\(\sqrt{1+2i}\), \(\sqrt{3+2i}\)).
+
+\hypertarget{position-in-the-transcendence-hierarchy}{%
+\section{6. Position in the Transcendence
+Hierarchy}\label{position-in-the-transcendence-hierarchy}}
+
+\textbf{Status of this section.} Section 6 separates into two registers.
+Theorem 6.1 is a proved result: for every Gaussian prime \(\pi\) with
+N(\(\pi\)) \(\geq\) 1, the constant S\_\(\pi\) is not an exponential
+period in the Fresán--Jossen sense, because the associated Kummer
+D-module has monodromy of infinite order. The three-class hierarchy of
+§6.1, the conjectural Galois-theoretic heuristic of §6.3, and Conjecture
+6.2 are offered as interpretive framework: they describe where our
+constants appear to sit relative to existing motivic theory, and what
+properties an extended theory would need. The proposed category of
+algebraic non-rational Kummer twists does not yet exist in the
+literature; the Galois-group suggestion in §6.3 is heuristic; the PSLQ
+evidence of §6.5 is consistent with the framework but does not establish
+it.
+
+\textbf{Theorem 6.1} (Classification Obstruction). S\_\(\pi\) is not an
+exponential period in the sense of Fresán--Jossen {[}9{]} for any
+Gaussian prime \(\pi\) with N(\(\pi\)) \(\geq\) 1.
+
+\emph{Proof.} The integral \(\Gamma\)(w/2) = \(\int\) t\^{}(w/2−1)
+e\^{}(−t) dt corresponds to D-module E(1)\(\otimes\)K(a) on
+\(\mathbb{G}\)\_m with a = w/2−1 and Kummer monodromy \(\mu\) =
+e\^{}(\(\pi\)iw). Since w \(\in\) \(\mathbb{Q}(i)\setminus \mathbb{Q}\),
+Im(w)\(\neq\)0 and \textbar{}\(\mu\)\textbar{} =
+e\^{}(−\(\pi\cdot\)Im(w)) \(\neq\) 1. Non-unitary monodromy has infinite
+order. An algebraic cover of degree d pulls back K(a) to K(da), trivial
+only if a \(\in\) \(\mathbb{Q}\). But a \(\in\)
+\(\mathbb{Q}(i)\setminus \mathbb{Q}\), so no cover exists. \(\square\)
+
+\hypertarget{the-three-class-hierarchy}{%
+\subsection{6.1. The three-class
+hierarchy}\label{the-three-class-hierarchy}}
+
+An exponential period in the sense of Fresán--Jossen {[}9{]} is an
+integral of the form \(\int_\gamma\) e\^{}(−f(x)) \(\omega\)(x), where f
+is a regular function and \(\omega\) is an algebraic differential form
+on a variety over \(\bar{\mathbb{Q}}\), and \(\gamma\) is a
+semialgebraic cycle. Classical Gamma values \(\Gamma\)(a+1) with a
+\(\in\) \(\mathbb{Q}\) are exponential periods because the underlying
+rank-1 D-module E(1)\(\otimes\)K(a) on \(\mathbb{G}\)\_m has Kummer
+monodromy e\^{}(2\(\pi\)ia) of finite order, trivialised by the
+algebraic cover z \(\mapsto\) z\^{}d for any d with da \(\in\)
+\(\mathbb{Z}\). Our constants involve \(\Gamma\) at a = w/2−1 \(\in\)
+\(\mathbb{Q}(i)\setminus \mathbb{Q}\), for which
+\textbar e\^{}(2\(\pi\)ia)\textbar{} = e\^{}(−\(\pi\) Im(w)) \(\neq\) 1
+(Theorem 6.1 above): the monodromy has infinite order, no algebraic
+cover trivialises K(a), and the associated D-module lies outside the
+exponential motive category.
+
+\textbf{Class I} (a \(\in\) \(\mathbb{Z}\)): \(\Gamma\)(a+1) = a!
+rational.
+
+\textbf{Class II} (a \(\in\) \(\mathbb{Q}\setminus \mathbb{Z}\)):
+monodromy a root of unity; \(\Gamma\)(a+1) an exponential period.
+Includes \(\Gamma\)(1/4), \(\Gamma\)(1/3), \(\sqrt{\pi}\), all
+Chowla--Selberg values.
+
+\textbf{Class III} (proposed) (a \(\in\)
+\(\bar{\mathbb{Q}}\setminus \mathbb{Q}\)):
+\textbar{}\(\mu\)\textbar{}\(\neq\)1; not an exponential period. Our
+constants have a = w/2−1 \(\in\) \(\mathbb{Q}(i)\setminus \mathbb{Q}\),
+placing them in the proposed Class III; no existing motivic category
+directly accommodates them.
+
+\hypertarget{monodromy-data}{%
+\subsection{6.2. Monodromy data}\label{monodromy-data}}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\(\pi\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+N
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+w
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+a = w/2−1
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\textbar{}\(\mu\)\textbar{}
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+i & 1 & i & −1+i/2 & \(e^{-\pi }\) \(\approx\) 0.0432 \\
+1+i & 2 & (1+i)/2 & −3/4+i/4 & \(e^{-\pi /2}\) \(\approx\) 0.208 \\
+2+i & 5 & (2+i)/5 & −4/5+i/10 & \(e^{-\pi /5}\) \(\approx\) 0.534 \\
+3+2i & 13 & (3+2i)/13 & −11/13+i/13 & \(e^{-2\pi /13}\) \(\approx\)
+0.617 \\
+4+i & 17 & (4+i)/17 & −13/17+i/34 & \(e^{-\pi /17}\) \(\approx\)
+0.831 \\
+\end{longtable}
+
+\textbf{Table 2.} Kummer monodromy. As N(\(\pi)\to\infty\),
+\textbar{}\(\mu\)\textbar{}\(\to\)1 but never equals 1.
+
+\hypertarget{conjectural-galois-structure}{%
+\subsection{6.3. Conjectural Galois
+structure}\label{conjectural-galois-structure}}
+
+For Class II gamma motives, the Galois group contains \(\mu _{n}\)
+(finite). For the proposed Class III, \(\mu _{n}\) would be replaced by
+\(\mathbb{G}\)\_m (infinite-order monodromy), suggesting one additional
+algebraic independence should hold --- consistent with all PSLQ
+failures.
+
+\hypertarget{why-classical-tools-fail}{%
+\subsection{6.4. Why classical tools
+fail}\label{why-classical-tools-fail}}
+
+Chowla--Selberg handles \(\Gamma\) at rational real arguments (Class
+II). Shimura/Deligne handle Class II motives. Hecke L-functions with
+trivial conductor yield no PSLQ match. All probe Class I--II; our
+constants are proposed to sit in Class III.
+
+\hypertarget{extended-pslq-evidence-from-the-hurwitz-zeta-family}{%
+\subsection{6.5. Extended PSLQ evidence from the Hurwitz-zeta
+family}\label{extended-pslq-evidence-from-the-hurwitz-zeta-family}}
+
+We extended the PSLQ search to the family
+
+\[S_\pi(n) = \operatorname{Im}[\zeta'(-n, 1+w/2) - \zeta'(-n, 1/2+w/2)], \quad n = 0, 1, 2, 3, 4\]
+
+for \(\pi\) \(\in\) \{i, 1+i, 2+i, −(2+i), 3+2i, 4+i, 5+2i\} at
+120-digit precision (mpmath mp.dps = 120, Bailey--Broadhurst pslq,
+maxcoeff = 10\textsuperscript{6}). For n=0 this reduces to S\_\(\pi\)
+via the Lerch formula (verified). Three search configurations were run:
+
+\begin{itemize}
+\tightlist
+\item
+  \emph{Within-\(\pi\)}: \{S\_\(\pi\)(0), \ldots, S\_\(\pi\)(4)\} +
+  standard basis, for each of the 7 primes.
+\item
+  \emph{Across-\(\pi\) at fixed n}: all 7 values \{S\_\(\pi\)(n)\} +
+  standard basis, for n = 0,\ldots,4.
+\item
+  \emph{Mixed}: all 35 values together with the standard basis (41
+  elements).
+\end{itemize}
+
+All 20 searches returned null. This is the expected outcome under the
+proposed Class III classification. Full details at
+github.com/Loublain/cmf-gaussian-primes {[}archived:
+doi:10.5281/zenodo.19670531{]}.
+
+\textbf{Conjecture 6.2.} The constants S\_\(\pi\) are natural candidates
+for periods of an extended motivic category incorporating D-modules
+E(1)\(\otimes\)K(a) with a \(\in\) \(\mathbb{Q}(i)\setminus \mathbb{Q}\)
+--- `algebraic non-rational Kummer twists'. Such a category does not yet
+exist.
+
+\hypertarget{computational-notes}{%
+\section{7. Computational Notes}\label{computational-notes}}
+
+All constants computed with mpmath at 80--160 decimal digits. The
+branch-free evaluation form c\_\(\pi\) = \textbar Im(z)/Re(z)\textbar{}
+is used throughout.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ mpmath}\OperatorTok{;}\NormalTok{ mpmath.mp.dps }\OperatorTok{=} \DecValTok{80}
+\KeywordTok{def}\NormalTok{ c\_pi(pi\_gauss):}
+\NormalTok{    w }\OperatorTok{=}\NormalTok{ pi\_gauss }\OperatorTok{/} \BuiltInTok{abs}\NormalTok{(pi\_gauss)}\OperatorTok{**}\DecValTok{2}
+\NormalTok{    z }\OperatorTok{=}\NormalTok{ mpmath.gamma(}\DecValTok{1}\OperatorTok{+}\NormalTok{w}\OperatorTok{/}\DecValTok{2}\NormalTok{) }\OperatorTok{/}\NormalTok{ mpmath.gamma(}\FloatTok{0.5}\OperatorTok{+}\NormalTok{w}\OperatorTok{/}\DecValTok{2}\NormalTok{)}
+    \ControlFlowTok{return} \BuiltInTok{abs}\NormalTok{(mpmath.im(z) }\OperatorTok{/}\NormalTok{ mpmath.re(z)) }\CommentTok{\# branch{-}free}
+\BuiltInTok{print}\NormalTok{(c\_pi(}\DecValTok{1}\OperatorTok{+}\OtherTok{1j}\NormalTok{))  }\CommentTok{\# 0.20788…}
+\BuiltInTok{print}\NormalTok{(c\_pi(}\DecValTok{3}\OperatorTok{+}\OtherTok{2j}\NormalTok{))  }\CommentTok{\# 0.08301…}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{open-questions}{%
+\section{8. Open Questions}\label{open-questions}}
+
+\textbf{(1)} Prove Conjecture 6.2.
+
+\textbf{(2)} Find a product formula for the composite constant
+c\textsubscript{2}.
+
+\textbf{(3)} Extend to Eisenstein integers
+\(\mathbb{Z}\){[}\(\omega\){]} and other imaginary quadratic fields.
+
+\textbf{(4)} Characterise constants at w = 1/p for inert primes.
+
+\textbf{(5)} Connect the norm-5 constants c\_\{\(\pm\)(2+i)\} to the
+\(\zeta\)(5) obstruction.
+
+\hypertarget{conclusion}{%
+\section{9. Conclusion}\label{conclusion}}
+
+We have identified an infinite family of mathematical constants
+c\_\(\pi\) = \textbar Im(z)/Re(z)\textbar{} with z =
+\(\Gamma\)(1+w/2)/\(\Gamma\)(1/2+w/2) and w = \(\pi\)/N(\(\pi\)), one
+per Gaussian prime of \(\mathbb{Z}\){[}i{]}, each verified absent from
+standard databases. Split primes contribute, inert primes do not. The
+unit identity S\textsubscript{1}+S\textsubscript{3} = \(\pi\)/4 extends
+by Theorem 3.4 to two associates of the ramified prime (−1+i and −1−i),
+where the same combination gives \(\pm \pi\)/4. All other Gaussian
+primes of norm \(\geq\) 2 produce irrational ratios (S\_\(\pi\) +
+S\_\{\(\bar{\pi}\)(shifted)\})/\(\pi\) via the closed form
+arctan(b/(N+a)) and Niven's theorem. This is an elementary result; the
+proposed Class III classification (§6) applies to the individual
+S\_\(\pi\), not to this specific bilinear combination. Theorem 6.1 is a
+proved obstruction from the Fresán--Jossen framework; the three-class
+hierarchy of §6.1 and Conjecture 6.2 are proposed as interpretive
+framework pending the development of an extended motivic category.
+
+\hypertarget{references}{%
+\section{References}\label{references}}
+
+{[}1{]} L. Blaine. An Investigation of an Alternate Base\ldots{}
+Preprint (2026).
+
+{[}2{]} L. Blaine. On the Tangent of the Argument\ldots{} Preprint
+(2026).
+
+{[}3{]} T. Raz et al.~From Euler to AI. NeurIPS 2025; arXiv:2502.17533.
+
+{[}4{]} G. Shimura. On the periods of modular forms. \emph{Mathematische
+Annalen} 229, 211--221 (1977). doi:10.1007/BF01420560
+
+{[}5{]} P. Deligne. Valeurs de fonctions L. \emph{Proc. Symp. Pure
+Math.} 33 (1979).
+
+{[}6{]} D. A. Cox. Primes of the Form
+x\textsuperscript{2}+ny\textsuperscript{2}. Wiley (1989).
+doi:10.1002/9781118400371
+
+{[}7{]} F. W. J. Olver et al.~NIST Handbook of Mathematical Functions.
+Cambridge University Press (2010). https://dlmf.nist.gov/
+
+{[}8{]} W. B. Jones, W. J. Thron. Continued Fractions: Analytic Theory
+and Applications. Addison-Wesley (1980).
+
+{[}9{]} J. Fresán, P. Jossen. Exponential Motives. Preprint (2021).
+https://javier.fresan.perso.math.cnrs.fr/expmot.pdf
+
+\textbf{Acknowledgements.} The author thanks Claude Sonnet 4.6
+(Anthropic) for assistance with derivation, computation, and manuscript
+preparation throughout this research. Correspondence:
+louisblaine45@gmail.com
+
+\hypertarget{footnotes}{%
+\section{Footnotes}\label{footnotes}}
+
+\textsuperscript{1} The base CMF structure from which these constants
+are derived is formalized in \texttt{CMF.lean}. The conservativity
+condition is machine-verified. See
+github.com/Loublain/cmf-gaussian-primes
+
+\end{document}

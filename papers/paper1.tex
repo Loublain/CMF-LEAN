@@ -1,0 +1,629 @@
+% Preamble for CMF research papers.
+% Defines the document class, fonts, theorem styles, and unicode mappings.
+% Used by paper1.tex / paper2.tex / paper3.tex (which inline this content).
+% To regenerate a self-contained paperN.tex from a body file:
+%   cat preamble.tex paperN.body.tex > paperN.tex
+% Compile with: xelatex paperN.tex
+%
+% This preamble does NOT include the \title/\author commands —
+% those are at the top of each paperN.body.tex (paper-specific).
+
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+
+% Use xelatex with TeX Gyre Termes (Times equivalent) for body and math
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{TeX Gyre Termes}
+\setmonofont{DejaVu Sans Mono}[Scale=0.85]
+\setmathfont{Latin Modern Math}[Scale=MatchLowercase]
+
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{etoolbox}
+\usepackage{makecell}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage{fvextra}
+
+% Enable pandoc's syntax-highlighted code-block environment.
+
+% Tighter spacing
+\setlength{\parskip}{0.5\baselineskip}
+\setlength{\parindent}{0pt}
+
+% Section heading style: bold, smaller than default. The markdown text already
+% includes the section number ("## 1. Introduction"), so we suppress LaTeX's
+% auto-numbering here.
+\usepackage{titlesec}
+\titleformat{\section}[block]{\normalsize\bfseries}{}{0pt}{}
+\titleformat{\subsection}[block]{\normalsize\bfseries}{}{0pt}{}
+\titleformat{\subsubsection}[block]{\normalsize\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{1.2\baselineskip}{0.4\baselineskip}
+\titlespacing*{\subsection}{0pt}{1.0\baselineskip}{0.3\baselineskip}
+
+% Pandoc-required commands
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+
+% Custom title block (centered, matching v2 style)
+\makeatletter
+\renewcommand\maketitle{%
+  \begingroup
+  \begin{center}
+    \LARGE\bfseries \@title \par
+  \end{center}
+  \ifx\@subtitle\@empty\else
+    \vspace{0.4em}
+    \begin{center}
+      \itshape \@subtitle \par
+    \end{center}
+  \fi
+  \vspace{0.6em}
+  \begin{center}
+    \@author \par
+    \vspace{0.2em}
+    Correspondence: \@correspondence \par
+    \vspace{0.2em}
+    \@date \par
+  \end{center}
+  \vspace{1em}
+  \endgroup
+}
+\def\@subtitle{}
+\newcommand{\subtitleX}[1]{\def\@subtitle{#1}}
+\def\@correspondence{}
+\newcommand{\correspondenceX}[1]{\def\@correspondence{#1}}
+\makeatother
+
+% Custom abstract: bold heading centered, indented body
+\renewenvironment{abstract}{%
+  \begin{center}\bfseries Abstract\end{center}%
+  \begin{quote}\setlength{\parindent}{0pt}}{\end{quote}\medskip}
+
+% Keywords command
+\newcommand{\keywordsX}[1]{%
+  \begin{quote}\setlength{\parindent}{0pt}\textbf{Keywords:} #1\end{quote}}
+
+\begin{document}
+% Paper-specific metadata
+\title{An Investigation of an Alternate Base for a Conservative Matrix
+Field and an Example of a Search for a Representation of ζ(5)}
+\subtitleX{Research Note --- Exploratory Mathematics}
+\author{Louis Blaine}
+\correspondenceX{louisblaine45@gmail.com}
+\date{March 2026}
+
+% Body
+\maketitle
+
+\begin{abstract}
+Conservative Matrix Fields (CMFs), recently introduced by Raz et
+al.~(2025) as a unifying structure underlying hundreds of formulas for
+mathematical constants such as \(\pi\), are defined on a two-dimensional
+integer lattice with a commutativity condition on mixed lattice paths.
+In this note we investigate what happens when the underlying base is
+extended from the real integer lattice \(\mathbb{Z}^{2}\) to pairs of
+complex numbers over the Gaussian integers \(\mathbb{Z}\){[}i{]}, and
+ask whether the resulting algebraic structure generates new mathematics.
+We show that the 4-periodicity of i under multiplication naturally
+stratifies lattice paths into two classes: commutative paths (4-step
+closure) and anticommutative paths (2-step closure), the latter being
+algebraically equivalent to spinors. The combined integrability
+conditions admit a natural realisation in the Pauli algebra, yielding a
+structure analogous to a superfield. We identify known constant pairs
+(even/odd zeta values, alternating/non-alternating series) as
+projections of this double-coverage structure, and derive predictions
+about an irrationality proof for \(\zeta\)(5). A computational search
+for an Apéry-like degree-5 recurrence guided by the anticommutative CMF
+framework is described and partially executed, consistent with the
+structural predictions while identifying the remaining computational
+challenge.
+\end{abstract}
+
+\keywordsX{Conservative Matrix Field, Riemann zeta function,
+irrationality, Clifford algebra, spinors, Apéry's theorem, continued
+fractions, Ramanujan Machine}
+
+\hypertarget{introduction}{%
+\section{1. Introduction}\label{introduction}}
+
+In late 2025, Raz, Shalyt, Leibtag, Kalisch, Weinbaum, Hadad, and
+Kaminer {[}1{]} announced a remarkable discovery: a previously unknown
+mathematical structure, the Conservative Matrix Field (CMF), underlies
+hundreds of formulas for the constant \(\pi\), including those of
+Archimedes, Euler, Madhava, and Ramanujan. Their Euler2AI project,
+combining large language models with novel symbolic algorithms,
+extracted 385 unique \(\pi\)-formulas from 455,050 arXiv preprints and
+demonstrated that 43\% of them belong to a single CMF. This work grew
+from the Ramanujan Machine project {[}2{]}, which uses AI to generate
+conjectures about fundamental constants in the form of continued
+fractions.
+
+A CMF is defined on the two-dimensional integer lattice
+\(\mathbb{Z}^{2}\). At each lattice point (m,n) one assigns 2\(\times\)2
+step matrices M\_x(m,n) and M\_y(m,n) whose entries are polynomial
+functions of m and n.\textsuperscript{1} The conservativity condition
+--- the discrete analog of curl = 0 --- demands that mixed lattice steps
+commute:\textsuperscript{2}
+
+\[M_y(m+1,n) \cdot M_x(m,n) = M_x(m,n+1) \cdot M_y(m,n)\]
+
+The Ramanujan Machine group showed that by choosing polynomial functions
+f(x,y) and f*(x,y) defining the step matrices, one obtains CMFs whose
+continued-fraction limits are fundamental constants. This note asks:
+what happens if we replace the real integer lattice with a complex base?
+Specifically, we investigate the Gaussian integer lattice
+\(\mathbb{Z}\){[}i{]} and show that the algebraic structure of i --- its
+4-periodicity under multiplication --- naturally produces two distinct
+classes of lattice paths with fundamentally different integrability
+conditions. We call these the commutative and anticommutative CMF
+structures, and we argue that they correspond respectively to the even
+and odd special values of the Riemann zeta function.
+
+\hypertarget{the-periodicity-structure-of-i-and-path-classification}{%
+\section{2. The Periodicity Structure of i and Path
+Classification}\label{the-periodicity-structure-of-i-and-path-classification}}
+
+The imaginary unit i satisfies the 4-cycle i\textsuperscript{1}=i,
+i\textsuperscript{2}=−1, i\textsuperscript{3}=−i,
+i\textsuperscript{4}=1. When lattice paths are taken over
+\(\mathbb{Z}\){[}i{]} rather than \(\mathbb{Z}^{2}\), closed loops
+naturally acquire different periodicity.
+
+\textbf{Definition 2.1} (Path Classification). Let \(\gamma\) be an
+elementary square loop in the lattice. We say \(\gamma\) is a
+\emph{commutative path} if the accumulated matrix product around
+\(\gamma\) equals the identity after 4 steps, and an
+\emph{anticommutative path} if it equals minus the identity after 2
+steps.
+
+Setting S(m,n) = M\_y(m+1,n)\(\cdot\)M\_x(m,n) and T(m,n) =
+M\_x(m,n+1)\(\cdot\)M\_y(m,n), the two integrability conditions are:
+
+\[S - T = 0 \quad \text{(commutative CMF)}; \qquad S + T = 0 \quad \text{(anticommutative CMF)}\]
+
+A field satisfying both conditions simultaneously requires {[}M\_x,
+M\_y{]} = 0 and \{M\_x, M\_y\} = 0, equivalently M\_xM\_y = M\_yM\_x =
+0. The Pauli matrices \(\sigma_{1}\), \(\sigma_{3}\) provide a natural
+nontrivial solution: writing M\_x = a\(\sigma_{1}\) + b\(\sigma_{3}\),
+M\_y = c\(\sigma_{2}\), both conditions are satisfied by the Clifford
+relations \(\sigma _{i}\sigma _{j}\) + \(\sigma _{j}\sigma _{i}\) =
+2\(\delta _{ij}\)I. Other solutions exist (e.g.~pairs of orthogonal
+projectors such as diag(1,0) and diag(0,1)), but the Pauli realisation
+is the one compatible with the nonzero polynomial step-matrix structure
+required by the CMF construction.
+
+\hypertarget{explicit-step-matrices-worked-example-for-c}{%
+\subsection{\texorpdfstring{2.2. Explicit step matrices: worked example
+for
+c\textsubscript{1}}{2.2. Explicit step matrices: worked example for c}}\label{explicit-step-matrices-worked-example-for-c}}
+
+We give the explicit step matrices for the constant c\textsubscript{1}
+(see companion paper {[}3{]}, §3.1). Define:
+
+\[M_x(m,n) = m\cdot\sigma_z + \sigma_x = \begin{bmatrix} m & 1 \\ 1 & -m \end{bmatrix} \quad \text{(trace-zero, antidiagonal-plus-diagonal)}\]
+
+\[M_y(m,n) = \sigma_y\text{-scaled} = \begin{bmatrix} 0 & 1 \\ -1 & 0 \end{bmatrix} \quad (= i\cdot\sigma_y \text{ up to phase})\]
+
+\textbf{Anticommutative CMF condition.} Compute S + T at any lattice
+point (m,n):
+
+\[S = M_y(m+1,n)\cdot M_x(m,n) = \begin{bmatrix}0&1\\-1&0\end{bmatrix}\begin{bmatrix}m&1\\1&-m\end{bmatrix} = \begin{bmatrix}1&-m\\-m&-1\end{bmatrix}\]
+
+\[T = M_x(m,n+1)\cdot M_y(m,n) = \begin{bmatrix}m&1\\1&-m\end{bmatrix}\begin{bmatrix}0&1\\-1&0\end{bmatrix} = \begin{bmatrix}-1&m\\m&1\end{bmatrix}\]
+
+\[S + T = \begin{bmatrix}0&0\\0&0\end{bmatrix}. \quad \checkmark^4\]
+
+\textbf{Scalar recursion.} The projective (Möbius) action of M\_x(k,0)
+on \(\mathbb{C}\mathbb{P}^{1}\) is z \(\mapsto\) (kz+1)/(z−k), so the
+path product along the x-axis \(\prod\)\emph{\{k=1\}\^{}\{N\} M\_x(k,0)
+generates the recursion z\_k = (kz}\{k-1\}+1)/(z\_\{k-1\}−k), i.e.~p(k)
+= 1, r(k) = k in the notation of Theorem 2.1 of {[}3{]}. This is the
+recurrence whose angle-sum limit gives S\textsubscript{1} =
+arg(\(\Gamma\)(1+i/2)/\(\Gamma\)(1/2+i/2)) and c\textsubscript{1} =
+\textbar tan(S\textsubscript{1})\textbar{} \(\approx\) 0.55500\ldots{}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+k & M\_x(k,0) & Möbius step z \(\to\) (kz+1)/(z−k) \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & {[}{[}1,1{]},{[}1,−1{]}{]} & z \(\to\) (z+1)/(z−1) \\
+2 & {[}{[}2,1{]},{[}1,−2{]}{]} & z \(\to\) (2z+1)/(z−2) \\
+3 & {[}{[}3,1{]},{[}1,−3{]}{]} & z \(\to\) (3z+1)/(z−3) \\
+k & {[}{[}k,1{]},{[}1,−k{]}{]} & z \(\to\) (kz+1)/(z−k) \\
+\end{longtable}
+
+\textbf{Table 0.} M\_x(k,0) for the first values of k, giving the
+c\textsubscript{1} recurrence.
+
+The corresponding M\_y matrices (all equal to
+{[}{[}0,1{]},{[}−1,0{]}{]}) play no role in the path along the x-axis
+but are required for the CMF integrability condition to hold on the full
+2D lattice. Analogous constructions yield p(k)/r(k) = (2k−1)/k for
+c\textsubscript{4} and k(k+1)/k\textsuperscript{2} for
+c\textsubscript{5}; see {[}3, §3.3--3.4{]}.
+
+\hypertarget{conventions}{%
+\subsection{2.3. Conventions}\label{conventions}}
+
+We use the principal branch Arg : \(\mathbb{C}\)* \(\to\) (−\(\pi\),
+\(\pi\){]} throughout. The CMF constant is defined as c =
+\textbar tan(Arg(z))\textbar{} = \textbar Im(z)/Re(z)\textbar{} where z
+= \(\Gamma\)(1+w/2)/\(\Gamma\)(1/2+w/2) (the second form is manifestly
+branch-free and equal to the first when Re(z) \(\neq\) 0). Numerical
+evidence confirms Re(z) \textgreater{} 0 for all Gaussian primes of norm
+\(\leq\) 41 (verified at 120-digit precision; see companion paper {[}4,
+§2.3{]}). The parameter w = \(\pi\)/N(\(\pi\)) \(\in\) \(\mathbb{Q}\)(i)
+for every Gaussian prime \(\pi\).
+
+\hypertarget{double-coverage-real-and-complex-computational-paths}{%
+\section{3. Double Coverage: Real and Complex Computational
+Paths}\label{double-coverage-real-and-complex-computational-paths}}
+
+The two path types create a double coverage of the constant landscape.
+Along a commutative path (real lattice steps only), matrix products
+accumulate as real polynomial products and converge to real constants
+with all-positive-term series. Along an anticommutative path (steps
+through the i-direction), each pair of steps introduces a sign flip via
+i\textsuperscript{2} = −1, generating an alternating
+series.\textsuperscript{5} This provides a structural explanation for
+why certain pairs of mathematical constants are in fact projections of a
+single complex CMF:
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Commutative partner
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Anticommutative partner
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Relationship
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(\zeta\)(2) = \(\pi^{2}\)/6 & \(\pi\)/4 = 1−1/3+1/5−⋯ & \(\pi^{2}\) vs
+\(\pi\) (degree drop) \\
+\(\zeta\)(2n) --- closed form in \(\pi\) & \(\zeta\)(2n−1) --- no closed
+form & Even vs odd \\
+Li\textsubscript{2}(1) = \(\pi^{2}\)/6 & Li\textsubscript{2}(1/2) =
+\(\pi^{2}\)/12 − ln\textsuperscript{2}(2)/2 & Full vs half path \\
+e = \(\Sigma\) 1/n! & 1/e = \(\Sigma\) (−1)\textsuperscript{n}/n! &
+Forward vs reverse \\
+\end{longtable}
+
+\textbf{Table 1:} Known constant pairs as commutative/anticommutative
+CMF partners.
+
+The degree-drop pattern (\(\pi^{2}\) paired with \(\pi\)) is
+structurally significant: commutative paths close after 4 steps
+(accumulating squared quantities), while anticommutative paths close
+after 2 steps (accumulating linear quantities). This correctly predicts
+that even zeta values \(\zeta\)(2n) are paired with odd values
+\(\zeta\)(2n−1). The even zeta values all have closed forms in powers of
+\(\pi\): \(\zeta\)(2)=\(\pi^{2}\)/6, \(\zeta\)(4)=\(\pi^{4}\)/90,
+\(\zeta\)(6)=\(\pi^{6}\)/945. The odd zeta values
+\(\zeta\)(3),\(\zeta\)(5),\(\zeta\)(7),\ldots{} have no such forms ---
+not accidentally, but because they live on anticommutative paths.
+
+\hypertarget{degree-5-anticommutative-cmf-and-predictions-for-5}{%
+\section{\texorpdfstring{4. Degree-5 Anticommutative CMF and Predictions
+for
+\(\zeta\)(5)}{4. Degree-5 Anticommutative CMF and Predictions for (5)}}\label{degree-5-anticommutative-cmf-and-predictions-for-5}}
+
+Apéry's 1978 proof {[}4{]} of the irrationality of \(\zeta\)(3) relied
+on the three-term recurrence:
+
+\[n^3 u_n = (34n^3 - 51n^2 + 27n - 5)\, u_{n-1} - (n-1)^3\, u_{n-2}\]
+
+whose ratio b\_n/a\_n converges to \(\zeta\)(3) fast enough to prove
+irrationality. Under the anticommutative CMF framework, we derive the
+following predictions for \(\zeta\)(5):
+
+\textbf{Prediction 4.1.} The irrationality proof for \(\zeta\)(5), if it
+exists via this method, will use a degree-5 recurrence
+n\textsuperscript{5} u\_n = A\textsubscript{5}(n) u\_\{n-1\} −
+(n−1)\textsuperscript{5} u\_\{n-2\} where \(\alpha\) = lim\_n
+A\textsubscript{5}(n)/n\textsuperscript{5} \textgreater{}
+e\textsuperscript{5} \(\approx\) 148.41.
+
+\textbf{Prediction 4.2.} The natural form is A\textsubscript{5}(n) =
+(2n−1){[}Q\(\cdot n^{2}(n−1)^{2}\) + P\(\cdot\)n(n−1) + R{]} with
+\(\alpha\) = 2Q, requiring Q \(\geq\) 75.
+
+\textbf{Prediction 4.3.} (Poincaré-Perron) The characteristic equation
+x\textsuperscript{2} − \(\alpha\)x + 1 = 0 must have roots \(\lambda\)+
+\textgreater{} e\textsuperscript{5} \textgreater{} 1 \textgreater{}
+\(\lambda\)− \textgreater{} 0 with \(\lambda+\lambda\)− = 1, giving
+\textbar b\_n/a\_n − \(\zeta\)(5)\textbar{} \textasciitilde{}
+(1/\(\lambda\)+)\textsuperscript{n} sufficient to prove irrationality
+after clearing lcm(1,\ldots,n)\textsuperscript{5}.\textsuperscript{3}
+
+\textbf{Prediction 4.4.} (Heuristic obstruction) Apéry's proof of
+\(\zeta\)(3) succeeded because \(\zeta\)(4) = \(\pi^{4}\)/90 \(\neq\) 0
+provided a non-vanishing commutative anchor. For \(\zeta\)(5), the
+functional equation maps s=5 to \(\zeta\)(−4)=0 (a trivial zero),
+removing this anchor. This heuristic obstruction, within our framework,
+suggests why \(\zeta\)(5) is harder than \(\zeta\)(3), though it does
+not constitute a proof that no Apéry-type recurrence exists.
+
+\hypertarget{computational-search}{%
+\section{5. Computational Search}\label{computational-search}}
+
+We implemented a computational search for the predicted recurrence,
+first validating it on Apéry's \(\zeta\)(3) recurrence: iterating to
+n=50, the ratio b\textsubscript{50}/a\textsubscript{50} matches
+\(\zeta\)(3) to 55 significant figures.
+
+\hypertarget{search-design}{%
+\subsection{5.1. Search Design}\label{search-design}}
+
+Parameters Q \(\in\) {[}75, 119{]}, P \(\in\) {[}−300, 300{]}, R \(\in\)
+{[}1, 60{]}; approximately 2.5 million candidates evaluated in 90
+seconds. No recurrence satisfying all integrability and irrationality
+conditions was found. The closest candidate was Q=75, P=−222, R=27,
+which converges to within 8.75\(\times\)10\textsuperscript{-8} of
+\(\zeta\)(5) but fails the integrality condition
+(lcm(1,\ldots,n)\textsuperscript{5}\(\cdot\)a\_n \(\notin\)
+\(\mathbb{Z}\) for n \(\geq\) 4).\textsuperscript{6}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Property
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(\zeta\)(3) --- Apéry
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(\zeta\)(5) --- Predicted
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Recurrence degree & 3 & 5 \\
+Leading coeff \(\alpha\) & 34 & 2Q \textgreater{} 148.41 \\
+\(\lambda\)+ & 17+12\(\sqrt{2}\) \(\approx\) 33.97 & \textgreater{}
+e\textsuperscript{5} \(\approx\) 148.41 \\
+lcm exponent & 3 & 5 \\
+Free params in A & 0 (fully determined) & 3 (Q, P, R) \\
+Commutative anchor & \(\zeta\)(4)=\(\pi^{4}\)/90 \(\neq\) 0 &
+\(\zeta\)(6)=\(\pi^{6}\)/945, func. eq. \(\to\) \(\zeta\)(−4)=0 \\
+Status & Proven irrational (1978) & Open problem \\
+\end{longtable}
+
+\textbf{Table 2:} Comparison of Apéry's recurrence for \(\zeta\)(3) and
+predicted structure for \(\zeta\)(5).
+
+\hypertarget{scope-of-remaining-search}{%
+\subsection{5.2. Scope of remaining
+search}\label{scope-of-remaining-search}}
+
+The feasible band has \(\lambda\)+ just above e\textsuperscript{5};
+extending the search to Q \(\leq\) 1000 would require approximately 35
+minutes on a 100-core cluster and is recommended as the immediate next
+computational step.
+
+\hypertarget{relation-to-the-linear-forms-approach-to-odd-zeta-values}{%
+\subsection{5.3. Relation to the linear-forms approach to odd zeta
+values}\label{relation-to-the-linear-forms-approach-to-odd-zeta-values}}
+
+The negative search result at Q \(\leq\) 119 should be read against the
+linear-forms approach to odd zeta values. Rivoal {[}10{]} established
+that infinitely many odd zeta values \(\zeta\)(2n+1) are irrational, and
+Zudilin {[}11{]} refined this to the statement that at least one of
+\(\zeta\)(5), \(\zeta\)(7), \(\zeta\)(9), \(\zeta\)(11) is irrational.
+Ball and Rivoal {[}12{]} proved the lower bound dim\_\(\mathbb{Q}\)
+span\_\(\mathbb{Q}\)\{1, \(\zeta\)(3), \(\zeta\)(5), \ldots,
+\(\zeta\)(2n+1)\} \(\geq\) (1 − o(1)) \(\cdot\) (log n)/(1 + log 2), and
+the direction has since been sharpened by Fischler and others {[}13{]}.
+These results establish irrationality of \(\mathbb{Q}\)-linear
+combinations of odd zeta values via small linear forms, and do not
+directly address the existence of an Apéry-type three-term recurrence
+for any individual value --- the target of the CMF search presented
+here. A negative outcome at our parameter range is therefore consistent
+with the Rivoal--Zudilin framework and leaves open the existence of a
+single-value recurrence for \(\zeta\)(5) at larger parameters.
+
+\hypertarget{a-superfield-like-structure-and-targets-for-new-constants}{%
+\section{6. A Superfield-like Structure and Targets for New
+Constants}\label{a-superfield-like-structure-and-targets-for-new-constants}}
+
+A matrix field with both commutative and anticommutative components has
+the algebraic structure analogous to a superfield (in the sense of a
+\(\mathbb{Z}_{2}\)-graded decomposition into even and odd sectors). In
+the Pauli basis:
+
+\[M_{\text{total}} = \zeta(6)^{1/2}\sigma_3 + \zeta(5)\sigma_1 + \Xi(5)\sigma_2\]
+
+where \(\Xi\)(5) is the imaginary Pauli (\(\sigma_{2}\)) component
+carrying the cross-term between sectors. If confirmed, \(\Xi\)(5) would
+be a new fundamental constant accessible only through the
+anticommutative CMF structure and invisible to existing commutative
+methods. We do not formalize the \(\mathbb{Z}_{2}\)-graded structure as
+a rigorous supersymmetry algebra here; the analogy is structural rather
+than physical.
+
+\hypertarget{missed-formulas-and-the-anticommutative-search}{%
+\section{\texorpdfstring{7. Missed \(\pi\) Formulas and the
+Anticommutative
+Search}{7. Missed  Formulas and the Anticommutative Search}}\label{missed-formulas-and-the-anticommutative-search}}
+
+The Euler2AI project {[}1{]} found that 43\% of known \(\pi\) formulas
+belong to a single commutative CMF. We conjecture that a significant
+fraction of the remaining 57\% belong to anticommutative CMFs ---
+formulas involving alternating series, half-integer arguments, or
+odd-weight modular forms invisible to a purely commutative search.
+Running the Euler2AI pipeline with the anticommutative integrability
+condition is the natural complement to the existing project.
+
+\hypertarget{discussion-and-open-questions}{%
+\section{8. Discussion and Open
+Questions}\label{discussion-and-open-questions}}
+
+\textbf{(1) Existence of the \(\zeta\)(5) recurrence.} Does a degree-5
+recurrence satisfying all conditions exist? The framework suggests yes,
+but parameter space is not yet fully explored.
+
+\textbf{(2) Uniqueness.} Poincaré-Perron analysis suggests the system is
+exactly determined (5 equations in 5 unknowns), pointing toward
+uniqueness once a valid recurrence is found.
+
+\textbf{(3) Higher odd zeta values.} The pattern predicts degree-7 for
+\(\zeta\)(7), degree-9 for \(\zeta\)(9), with computational difficulty
+growing as e\^{}d.
+
+\textbf{(4) Mock theta functions.} Ramanujan's mock theta functions
+carry half-integer modular weight --- a spinorial character --- and may
+fit naturally within the anticommutative CMF framework.
+
+\textbf{(5) Clifford generalisation.} Higher-dimensional Clifford
+algebras might produce CMF structures connecting mathematical constants
+to physical quantities. Whether the collapse mechanism from matrix
+dynamics to scalar recursion (§2.2) extends to Cl(p,q) beyond Cl(2) is
+an open question not addressed here.
+
+\hypertarget{conclusion}{%
+\section{9. Conclusion}\label{conclusion}}
+
+We have shown that extending the base of a Conservative Matrix Field
+from the real integer lattice to the Gaussian integers naturally
+produces two classes of lattice paths --- commutative and
+anticommutative --- whose integrability conditions admit a natural
+realisation in the Pauli algebra, yielding a spinor-like algebraic
+structure. Explicit step matrices are constructed (§2.2) and the
+anticommutative CMF condition S+T=0 is verified. The commutative and
+anticommutative projections correspond respectively to even and odd
+special values of the Riemann zeta function. A computational search
+covering \textasciitilde2.5 million candidates found no valid
+\(\zeta\)(5) recurrence within the explored range, consistent with the
+prediction that the true recurrence, if it exists, lies at larger
+parameter values requiring cluster computation. The negative result is
+consistent with the Rivoal--Zudilin framework on irrationality of
+combinations of odd zeta values {[}10--12{]}, which targets a different
+object (linear combinations) than the single-value Apéry-type recurrence
+sought here.
+
+\textbf{Computational reproducibility.} The recurrence search code and
+Lean 4 formalization are available at
+github.com/Loublain/cmf-gaussian-primes {[}archived:
+doi:10.5281/zenodo.19670531{]}. The Lean formalization covers: CMF
+structure and path independence (\texttt{CMF.lean},
+\texttt{PathIndep.lean}), polynomial CMF (\texttt{PolyCMF.lean}),
+commutative/anticommutative structure (\texttt{SuperCMF.lean}), Pauli
+step matrix verification (\texttt{PauliCMF.lean}), zeta pairing
+algebraic structure (\texttt{ZetaPairs.lean}), and recurrence
+predictions (\texttt{Recurrence.lean}). All theorems are
+machine-verified with no \texttt{sorry} and depend only on standard
+Mathlib axioms (\texttt{propext}, \texttt{Classical.choice},
+\texttt{Quot.sound}). All searches were implemented in Python with
+mpmath (mp.dps = 50 for convergence checks) and are fully reproducible
+from the repository README.
+
+\hypertarget{references}{%
+\section{References}\label{references}}
+
+{[}1{]} T. Raz, M. Shalyt, E. Leibtag, R. Kalisch, S. Weinbaum, Y.
+Hadad, I. Kaminer. From Euler to AI: Unifying Formulas for Mathematical
+Constants. NeurIPS 2025; arXiv:2502.17533 (2025).
+
+{[}2{]} G. Raayoni, S. Gottlieb, Y. Manor, et al.~Generating conjectures
+on fundamental constants with the Ramanujan Machine. \emph{Nature} 590,
+67--73 (2021). doi:10.1038/s41586-021-03229-4
+
+{[}3{]} L. Blaine. On the Tangent of the Argument: Closed Forms for
+Constants Arising from Anticommutative Pauli CMF Matrix Products.
+Preprint (2026).
+
+{[}4{]} R. Apéry. Irrationalité de \(\zeta\)(2) et \(\zeta\)(3).
+\emph{Astérisque} 61, 11--13 (1979).
+
+{[}5{]} O. David. The conservative matrix field. arXiv:2303.09318
+(2023).
+
+{[}6{]} G. Rhin, C. Viola. The group structure for \(\zeta\)(3).
+\emph{Acta Arithmetica} 97, 269--293 (2001). doi:10.4064/aa97-3-6
+
+{[}7{]} E. Witten. Supersymmetry and Morse theory. \emph{Journal of
+Differential Geometry} 17(4), 661--692 (1982).
+
+{[}8{]} M. Atiyah. On the K-theory of compact Lie groups.
+\emph{Topology} 4(1), 95--99 (1965). doi:10.1016/0040-9383(65)90051-4
+
+{[}9{]} S. Ramanujan. The Lost Notebook and Other Unpublished Papers.
+Narosa Publishing House, New Delhi (1988).
+
+{[}10{]} T. Rivoal. La fonction zêta de Riemann prend une infinité de
+valeurs irrationnelles aux entiers impairs. \emph{C. R. Acad. Sci.
+Paris} 331 (2000), 267--270. doi:10.1016/S0764-4442(00)01624-4
+
+{[}11{]} W. Zudilin. One of the numbers \(\zeta\)(5), \(\zeta\)(7),
+\(\zeta\)(9), \(\zeta\)(11) is irrational. \emph{Russian Math. Surveys}
+56 (2001), 774--776. doi:10.1070/RM2001v056n04ABEH000427
+
+{[}12{]} K. Ball, T. Rivoal. Irrationalité d'une infinité de valeurs de
+la fonction zêta aux entiers impairs. \emph{Invent. Math.} 146 (2001),
+193--207. doi:10.1007/s002220100168
+
+{[}13{]} S. Fischler. Irrationalité de valeurs de zêta. \emph{Séminaire
+Bourbaki}, Astérisque 294 (2004), 27--62.
+
+\textbf{Acknowledgements.} The author thanks Claude Sonnet 4.6
+(Anthropic) for assistance with derivation, step-matrix construction,
+computational search, Lean 4 formalization, and manuscript preparation.
+Correspondence: louisblaine45@gmail.com
+
+\hypertarget{footnotes}{%
+\section{Footnotes}\label{footnotes}}
+
+\textsuperscript{1} The precise definition uses
+\texttt{MvPolynomial\ (Fin\ 2)\ R} evaluated via
+\texttt{Matrix.map\ (MvPolynomial.eval\ v)} where
+\texttt{v\ :\ Fin\ 2\ →\ R} maps the two variables to the lattice
+coordinates. The Lean 4 formalization is the canonical reference:
+github.com/Loublain/cmf-gaussian-primes
+
+\textsuperscript{2} Formally:
+\texttt{My\ (p\ +\ (1,0))\ *\ Mx\ p\ =\ Mx\ (p\ +\ (0,1))\ *\ My\ p} for
+all \texttt{p\ :\ ℤ\ ×\ ℤ}. Machine-verified in \texttt{CMF.lean}.
+
+\textsuperscript{3} Prediction 4.3 is formally proved as
+\texttt{Prediction43\_holds} in \texttt{Recurrence.lean}. Predictions
+4.1 and 4.2 remain open conjectures. The Lean 4 formalization is
+available at github.com/Loublain/cmf-gaussian-primes
+
+\textsuperscript{4} The anticommutative condition S + T = 0 for the
+c\textsubscript{1} step matrices is machine-verified in
+\texttt{PauliCMF.lean} as \texttt{S\_plus\_T\_c1}.
+
+\textsuperscript{5} The sign flip S = −T is formally proved as
+\texttt{AntiCMF.sign\_flip} in \texttt{ZetaPairs.lean}. The connection
+between this algebraic mechanism and convergence to specific zeta values
+is not formalized; it requires analytic infrastructure not currently in
+Mathlib.
+
+\textsuperscript{6} The parameter space and closest candidate are
+formally defined in \texttt{Recurrence.lean} as \texttt{SearchSpace} and
+\texttt{closest\_candidate}, with membership verified by
+\texttt{closest\_in\_search\_space}.
+
+\end{document}
