@@ -12,6 +12,7 @@ import RequestProject.PolyCMF
 import RequestProject.SuperCMF
 import RequestProject.PauliCMF
 import RequestProject.ZetaPairs
+import RequestProject.Recurrence
 
 /-!
 # Axiom Audit
@@ -61,3 +62,13 @@ Update this file whenever a new main theorem is added.
 #print axioms AntiCMF.sign_flip
 #print axioms AntiCMF.sign_flip_add
 #print axioms AntiCMF.sq_symmetric
+
+-- Recurrence.lean
+#print axioms apery3_A
+#print axioms A5_form
+#print axioms A5_leading_coeff
+#print axioms A5_alpha_bound
+#print axioms exp5_lt_149
+#print axioms Prediction43_holds
+#print axioms zeta_neg4_zero
+#print axioms closest_in_search_space
