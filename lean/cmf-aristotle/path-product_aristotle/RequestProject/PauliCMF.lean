@@ -116,6 +116,21 @@ lemma mobius_step (m : ℤ) :
     Mx_c1 (m, 0) = !![m, 1; 1, -m] := by
   simp [Mx_c1]
 
+/-! ## Möbius involution: M² = scalar · I -/
+
+/-- Each step matrix Mx_c1(m, 0) squares to (m²+1)·I.
+    Cayley-Hamilton for trace-zero M: M² = -det(M)·I = (m²+1)·I.
+    Direct computation: [[m,1],[1,-m]]² = [[m²+1,0],[0,m²+1]].
+    Projective interpretation: Mx_c1(m,0) acts as an order-2 Mobius
+    transformation on CP1 (nonzero scalar = projective identity). -/
+lemma Mx_c1_sq (m : ℤ) :
+    Mx_c1 (m, 0) * Mx_c1 (m, 0) = (m ^ 2 + 1) • (1 : Matrix (Fin 2) (Fin 2) ℤ) := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+  simp [Mx_c1, Matrix.mul_apply, Fin.sum_univ_two,
+        Matrix.smul_apply] <;>
+  ring
+
 /-! ## Summary
 
 The file establishes:
@@ -124,6 +139,7 @@ The file establishes:
 3. `pauliAntiCMF : AntiCMF ℤ` constructed  ✓
 4. c₁ matrices are NOT a CommCMF  ✓
 5. Möbius step matches paper §2.2  ✓
+6. Mx_c1(m, 0)² = (m²+1)·I  ✓  (involution at step-matrix level, §2.2)
 
 Next: SuperCMF instance requires both conditions simultaneously.
 The paper notes the Pauli basis σ₁, σ₃ satisfies both via Clifford
