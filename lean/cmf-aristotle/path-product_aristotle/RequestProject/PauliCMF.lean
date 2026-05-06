@@ -131,6 +131,25 @@ lemma Mx_c1_sq (m : ℤ) :
         Matrix.smul_apply] <;>
   ring
 
+/-! ## Matrix conjugation symmetry (complex parameter) -/
+
+/-- The step matrix at a complex parameter w. -/
+noncomputable def Mx_complex (w : ℂ) : Matrix (Fin 2) (Fin 2) ℂ :=
+  !![w, 1; 1, -w]
+
+/-- At the conjugate parameter, the step matrix is the componentwise conjugate.
+
+    This is the matrix-level half of Paper 3 Theorem 3.1 (Conjugation Symmetry):
+    S_{pi_bar} = -S_pi. The full theorem additionally requires
+    Gamma(conj z) = conj(Gamma(z)), which is not currently formalized.
+
+    Proof: immediate from starRingEnd acting entry-by-entry. -/
+lemma Mx_complex_conj (w : ℂ) :
+    Mx_complex (starRingEnd ℂ w) = (Mx_complex w).map (starRingEnd ℂ) := by
+  ext i j
+  fin_cases i <;> fin_cases j <;>
+  simp [Mx_complex, Matrix.map_apply, map_neg, map_one]
+
 /-! ## Summary
 
 The file establishes:
@@ -140,6 +159,7 @@ The file establishes:
 4. c₁ matrices are NOT a CommCMF  ✓
 5. Möbius step matches paper §2.2  ✓
 6. Mx_c1(m, 0)² = (m²+1)·I  ✓  (involution at step-matrix level, §2.2)
+7. Mx_complex(conj w) = conj(Mx_complex(w))  ✓  (matrix-level half of P3 Thm 3.1)
 
 Next: SuperCMF instance requires both conditions simultaneously.
 The paper notes the Pauli basis σ₁, σ₃ satisfies both via Clifford
