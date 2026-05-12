@@ -16,9 +16,15 @@ Thumbs.db
 *.swp
 *~
 
+# MCP server config
+.mcp.json
+
 # Local artifacts
 *.bundle
 *.git.detached/
 CLAUDE_HANDOFF.md
 GIT_REPO_PRESERVATION.md
 .claude/
+setup-lean-lsp-mcp.ps1
+install.ps1
+unsloth_env/

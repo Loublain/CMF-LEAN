@@ -16,3 +16,5 @@
 *.swp
 *.tmp
 .DS_Store
+
+RequestProject/Shvets_Sym2CMF.lean
