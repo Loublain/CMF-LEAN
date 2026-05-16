@@ -38,7 +38,7 @@ Setting S(m,n) = M_y(m+1,n)·M_x(m,n) and T(m,n) = M_x(m,n+1)·M_y(m,n), the two
 
 $$S - T = 0 \quad \text{(commutative CMF)}; \qquad S + T = 0 \quad \text{(anticommutative CMF)}$$
 
-A field satisfying both conditions simultaneously requires [M_x, M_y] = 0 and {M_x, M_y} = 0, equivalently M_xM_y = M_yM_x = 0. The Pauli matrices σ₁, σ₃ provide a natural nontrivial solution: writing M_x = aσ₁ + bσ₃, M_y = cσ₂, both conditions are satisfied by the Clifford relations σᵢσⱼ + σⱼσᵢ = 2δᵢⱼI. Other solutions exist (e.g. pairs of orthogonal projectors such as diag(1,0) and diag(0,1)), but the Pauli realisation is the one compatible with the nonzero polynomial step-matrix structure required by the CMF construction.
+The anticommutative condition {M_x, M_y} = 0 admits a natural realisation in the Pauli algebra: writing M_x = aσ₁ + bσ₃ and M_y = cσ₂, the Clifford anticommutation σᵢσⱼ + σⱼσᵢ = 2δᵢⱼI (for i ≠ j) yields {M_x, M_y} = 0. The commutator [M_x, M_y] = 2ic(aσ₃ − bσ₁) is generically nonzero, so this realisation does *not* satisfy the commutative condition — consistent with the explicit c₁ computation in §2.2 below, where S + T = 0 holds and S ≠ T. A field satisfying both conditions simultaneously would require M_xM_y = M_yM_x = 0, which is incompatible with the nonzero polynomial step-matrix structure of the CMF construction. We treat the commutative (S − T = 0) and anticommutative (S + T = 0) branches as two distinct CMF families on ℤ[i], with the Pauli realisation specific to the anticommutative branch.
 
 ### 2.2. Explicit step matrices: worked example for c₁
 

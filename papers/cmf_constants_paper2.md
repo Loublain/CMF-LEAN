@@ -44,7 +44,7 @@ The factor √π arises from the Weierstrass product normalisation at the half-i
 
 ### 2.3. Convergence and precision
 
-The alternating arctangent sum S = Σⱼ (−1)^(j+1) arctan(p(j)/r(j)) converges conditionally by the Leibniz criterion (arctan(p(k)/r(k)) → 0 monotonically in all five cases). The truncation error after N terms satisfies |S − S_N| ≤ arctan(p(N+1)/r(N+1)) ≤ p(N+1)/r(N+1).
+The alternating arctangent sum S = Σⱼ (−1)^(j+1) arctan(p(j)/r(j)) is identified by Lemma 2.2 with arg(Γ(1+w/2)/Γ(1/2+w/2)), the even-N limit of the Weierstrass product. The Leibniz criterion applies directly only to c₁, where p(k)/r(k) = 1/k → 0 monotonically; for c₂, c₃, c₄, c₅ the term arctan(p(k)/r(k)) does not tend to zero (the ratios p/r approach ∞, ∞, 2, and 1 respectively as k → ∞), so the arctangent series is meaningful for these constants only as the formal angle-sum of the Möbius iteration of Theorem 2.1, with convergence supplied by the Gamma-ratio identification. See Table 1, column 3 for the limits at a glance.
 
 For c₁ (p=1, r=k) this bound is 1/(N+1), so direct summation requires O(10^120) terms for 120-digit precision — plainly impractical. In practice, all five constants are evaluated via the closed-form Gamma ratio (Lemma 2.2 and Section 3), using mpmath's internal Spouge approximation for Γ at complex arguments. Spouge's method requires O(120 ln 10) ≈ 277 summation terms for 120-digit relative error, making high-precision evaluation straightforward. The Weierstrass product of Lemma 2.2 converges absolutely since Σ|w/k|² = |w|²π²/6 < ∞; the product-to-Gamma identification is a standard consequence of the Weierstrass factorisation [7, §12.1].
 
@@ -78,15 +78,20 @@ $$c_5 = \left|\tan\!\left(\arg\!\left(\frac{\Gamma(5/4+i/4)}{\Gamma(3/4+i/4)}\ri
 
 $$c_2 = \left|\tan\!\left(\arg\!\left(\sqrt{\pi} \cdot \frac{\Gamma(1-r_1/2)\cdot\Gamma(1-r_2/2)}{\Gamma(1/2-r_1/2)\cdot\Gamma(1/2-r_2/2)}\right)\right)\right| \approx 0.74328645390177619968660\ldots$$
 
-| c | p(k), r(k) | w | Closed form (arg of) | Value |
+| c | p(k), r(k) | lim p/r | w | Closed form (arg of) |
 |---|---|---|---|---|
-| c₁ | 1, k | i | Γ(1+i/2)/Γ(1/2+i/2) | 0.554996… |
-| c₂ | (2k−1)², k | quadratic | √π · Γ-product | 0.743286… |
-| c₃ | k(k+1), k | −i+shift | Γ(1−i/2)/Γ(3/2−i/2) | 0.286176… |
-| c₄ | 2k−1, k | −(2+i)/5 | Γ(4/5−i/10)/Γ(3/10−i/10) | 0.247582… |
-| c₅ | k(k+1), k² | (1+i)/2 | Γ(5/4+i/4)/Γ(3/4+i/4) | 0.207879… |
+| **c₁** | 1, k | → 0 | i | Γ(1+i/2)/Γ(1/2+i/2) |
+| | *value = 0.55499611157361950342640…* | | | |
+| **c₂** | (2k−1)², k | → ∞ | quadratic | √π · Γ-product |
+| | *value = 0.74328645390177619968660…* | | | |
+| **c₃** | k(k+1), k | → ∞ | −i+shift | Γ(1−i/2)/Γ(3/2−i/2) |
+| | *value = 0.28617684964886955539522…* | | | |
+| **c₄** | 2k−1, k | → 2 | −(2+i)/5 | Γ(4/5−i/10)/Γ(3/10−i/10) |
+| | *value = 0.24758221870861069889236…* | | | |
+| **c₅** | k(k+1), k² | → 1 | (1+i)/2 | Γ(5/4+i/4)/Γ(3/4+i/4) |
+| | *value = 0.20787957635076190854695…* | | | |
 
-**Table 1.** The five constants and their Gamma closed forms.
+**Table 1.** The five constants, their convergence behaviour, and Gamma closed forms.
 
 ---
 

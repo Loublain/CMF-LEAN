@@ -211,10 +211,17 @@ Section 3 depend only on the argument and are unaffected.
 precision}\label{convergence-and-precision}}
 
 The alternating arctangent sum S = \(\Sigma _{j}\) (−1)\^{}(j+1)
-arctan(p(j)/r(j)) converges conditionally by the Leibniz criterion
-(arctan(p(k)/r(k)) \(\to\) 0 monotonically in all five cases). The
-truncation error after N terms satisfies \textbar S − S\_N\textbar{}
-\(\leq\) arctan(p(N+1)/r(N+1)) \(\leq\) p(N+1)/r(N+1).
+arctan(p(j)/r(j)) is identified by Lemma 2.2 with
+arg(\(\Gamma\)(1+w/2)/\(\Gamma\)(1/2+w/2)), the even-N limit of the
+Weierstrass product. The Leibniz criterion applies directly only to
+c\textsubscript{1}, where p(k)/r(k) = 1/k \(\to\) 0 monotonically; for
+c\textsubscript{2}, c\textsubscript{3}, c\textsubscript{4},
+c\textsubscript{5} the term arctan(p(k)/r(k)) does not tend to zero (the
+ratios p/r approach \(\infty\), \(\infty\), 2, and 1 respectively as k
+\(\to\) \(\infty\)), so the arctangent series is meaningful for these
+constants only as the formal angle-sum of the Möbius iteration of
+Theorem 2.1, with convergence supplied by the Gamma-ratio
+identification. See Table 1, column 3 for the limits at a glance.
 
 For c\textsubscript{1} (p=1, r=k) this bound is 1/(N+1), so direct
 summation requires O(10\^{}120) terms for 120-digit precision ---
@@ -276,41 +283,31 @@ r\textsubscript{1},\textsubscript{2} = {[}−1+4i \(\pm\)
 
 \[c_2 = \left|\tan\!\left(\arg\!\left(\sqrt{\pi} \cdot \frac{\Gamma(1-r_1/2)\cdot\Gamma(1-r_2/2)}{\Gamma(1/2-r_1/2)\cdot\Gamma(1/2-r_2/2)}\right)\right)\right| \approx 0.74328645390177619968660\ldots\]
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2000}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-c
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-p(k), r(k)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-w
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Closed form (arg of)
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Value
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-c\textsubscript{1} & 1, k & i & \(\Gamma\)(1+i/2)/\(\Gamma\)(1/2+i/2) &
-0.554996\ldots{} \\
-c\textsubscript{2} & (2k−1)\textsuperscript{2}, k & quadratic &
-\(\sqrt{\pi}\) \(\cdot\) \(\Gamma\)-product & 0.743286\ldots{} \\
-c\textsubscript{3} & k(k+1), k & −i+shift &
-\(\Gamma\)(1−i/2)/\(\Gamma\)(3/2−i/2) & 0.286176\ldots{} \\
-c\textsubscript{4} & 2k−1, k & −(2+i)/5 &
-\(\Gamma\)(4/5−i/10)/\(\Gamma\)(3/10−i/10) & 0.247582\ldots{} \\
-c\textsubscript{5} & k(k+1), k\textsuperscript{2} & (1+i)/2 &
-\(\Gamma\)(5/4+i/4)/\(\Gamma\)(3/4+i/4) & 0.207879\ldots{} \\
-\end{longtable}
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lllll@{}}
+\toprule
+$c$ & $p(k), r(k)$ & $\lim p/r$ & $w$ & Closed form (arg of) \\
+\midrule
+$c_1$ & $1,\ k$ & $\to 0$ & $i$ & $\Gamma(1+i/2)/\Gamma(1/2+i/2)$ \\
+\multicolumn{5}{l}{\quad\itshape value $= 0.55499611157361950342640\ldots$} \\
+\midrule
+$c_2$ & $(2k-1)^2,\ k$ & $\to \infty$ & quadratic & $\sqrt{\pi} \cdot \Gamma$-product \\
+\multicolumn{5}{l}{\quad\itshape value $= 0.74328645390177619968660\ldots$} \\
+\midrule
+$c_3$ & $k(k+1),\ k$ & $\to \infty$ & $-i+\text{shift}$ & $\Gamma(1-i/2)/\Gamma(3/2-i/2)$ \\
+\multicolumn{5}{l}{\quad\itshape value $= 0.28617684964886955539522\ldots$} \\
+\midrule
+$c_4$ & $2k-1,\ k$ & $\to 2$ & $-(2+i)/5$ & $\Gamma(4/5-i/10)/\Gamma(3/10-i/10)$ \\
+\multicolumn{5}{l}{\quad\itshape value $= 0.24758221870861069889236\ldots$} \\
+\midrule
+$c_5$ & $k(k+1),\ k^2$ & $\to 1$ & $(1+i)/2$ & $\Gamma(5/4+i/4)/\Gamma(3/4+i/4)$ \\
+\multicolumn{5}{l}{\quad\itshape value $= 0.20787957635076190854695\ldots$} \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\textbf{Table 1.} The five constants and their Gamma closed forms.
+\textbf{Table 1.} The five constants, their convergence behaviour, and Gamma closed forms.
 
 \hypertarget{the-identity-s-s-4}{%
 \section{\texorpdfstring{4. The Identity S\textsubscript{1} +
