@@ -115,12 +115,13 @@ In this note we investigate what happens when the underlying base is
 extended from the real integer lattice \(\mathbb{Z}^{2}\) to pairs of
 complex numbers over the Gaussian integers \(\mathbb{Z}\){[}i{]}, and
 ask whether the resulting algebraic structure generates new mathematics.
-We show that the 4-periodicity of i under multiplication naturally
-stratifies lattice paths into two classes: commutative paths (4-step
-closure) and anticommutative paths (2-step closure), the latter being
-algebraically equivalent to spinors. The combined integrability
-conditions admit a natural realisation in the Pauli algebra, yielding a
-structure analogous to a superfield. We identify known constant pairs
+We show that a CMF over the Gaussian integers
+naturally admits two distinct integrability conditions on the unit
+plaquette: \(S - T = 0\) (commutative, the original Raz--Kaminer
+setting) and \(S + T = 0\) (anticommutative, naturally realised in the
+Pauli algebra and algebraically equivalent to spinors). These two
+conditions define separate families that cannot coexist nontrivially in
+a single matrix field. We identify known constant pairs
 (even/odd zeta values, alternating/non-alternating series) as
 projections of this double-coverage structure, and derive predictions
 about an irrationality proof for \(\zeta\)(5). A computational search
@@ -170,25 +171,25 @@ conditions. We call these the commutative and anticommutative CMF
 structures, and we argue that they correspond respectively to the even
 and odd special values of the Riemann zeta function.
 
-\hypertarget{the-periodicity-structure-of-i-and-path-classification}{%
-\section{2. The Periodicity Structure of i and Path
-Classification}\label{the-periodicity-structure-of-i-and-path-classification}}
+\hypertarget{two-integrability-conditions}{%
+\section{2. Two Integrability Conditions on
+\(\mathbb{Z}\){[}i{]}}\label{two-integrability-conditions}}
 
 The imaginary unit i satisfies the 4-cycle i\textsuperscript{1}=i,
 i\textsuperscript{2}=−1, i\textsuperscript{3}=−i,
 i\textsuperscript{4}=1. When lattice paths are taken over
-\(\mathbb{Z}\){[}i{]} rather than \(\mathbb{Z}^{2}\), closed loops
-naturally acquire different periodicity.
+\(\mathbb{Z}\){[}i{]} rather than \(\mathbb{Z}^{2}\), the
+unit-plaquette closure admits two algebraically distinct integrability
+conditions, depending on whether the two paths around the plaquette
+have equal or opposite-sign matrix products.
 
-\textbf{Definition 2.1} (Path Classification). Let \(\gamma\) be an
-elementary square loop in the lattice. We say \(\gamma\) is a
-\emph{commutative path} if the accumulated matrix product around
-\(\gamma\) equals the identity after 4 steps, and an
-\emph{anticommutative path} if it equals minus the identity after 2
-steps.
+\textbf{Definition 2.1} (Two integrability conditions). Setting
 
-Setting S(m,n) = M\_y(m+1,n)\(\cdot\)M\_x(m,n) and T(m,n) =
-M\_x(m,n+1)\(\cdot\)M\_y(m,n), the two integrability conditions are:
+\[S(m,n) = M_y(m+1,n)\cdot M_x(m,n) \quad \text{and} \quad T(m,n) = M_x(m,n+1)\cdot M_y(m,n)\]
+
+for the two products around a unit lattice plaquette, we call a CMF
+\emph{commutative} if \(S - T = 0\) throughout the lattice, and
+\emph{anticommutative} if \(S + T = 0\):
 
 \[S - T = 0 \quad \text{(commutative CMF)}; \qquad S + T = 0 \quad \text{(anticommutative CMF)}\]
 
@@ -317,16 +318,19 @@ Forward vs reverse \\
 \textbf{Table 1:} Known constant pairs as commutative/anticommutative
 CMF partners.
 
-The degree-drop pattern (\(\pi^{2}\) paired with \(\pi\)) is
-structurally significant: commutative paths close after 4 steps
-(accumulating squared quantities), while anticommutative paths close
-after 2 steps (accumulating linear quantities). This correctly predicts
-that even zeta values \(\zeta\)(2n) are paired with odd values
-\(\zeta\)(2n−1). The even zeta values all have closed forms in powers of
-\(\pi\): \(\zeta\)(2)=\(\pi^{2}\)/6, \(\zeta\)(4)=\(\pi^{4}\)/90,
-\(\zeta\)(6)=\(\pi^{6}\)/945. The odd zeta values
-\(\zeta\)(3),\(\zeta\)(5),\(\zeta\)(7),\ldots{} have no such forms ---
-not accidentally, but because they live on anticommutative paths.
+The degree-drop pattern (\(\pi^{2}\) paired with \(\pi\)) reflects the
+matrix algebra of the two sectors: in the anticommutative (Pauli)
+realisation, the step matrix M = r\(\sigma_{z}\) + p\(\sigma_{x}\)
+satisfies M\textsuperscript{2} = (r\textsuperscript{2}+p\textsuperscript{2})\(\cdot\)I, so
+matrix-level squaring produces a scalar in (r\textsuperscript{2}+p\textsuperscript{2})
+--- a linear quantity in the polynomial entries. The commutative sector
+lacks this involutive structure; the natural accumulator is the full
+matrix product, which the Raz--Kaminer setting shows converges to
+\(\pi^{2n}\) for the appropriate hypergeometric step matrices. This is
+consistent with the observed pairing of even \(\zeta\)(2n) (closed
+forms in powers of \(\pi\)) with odd \(\zeta\)(2n−1) (no such forms ---
+they live on the anticommutative sector), though the heuristic does not
+by itself constitute a proof.
 
 \hypertarget{degree-5-anticommutative-cmf-and-predictions-for-5}{%
 \section{\texorpdfstring{4. Degree-5 Anticommutative CMF and Predictions

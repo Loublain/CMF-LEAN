@@ -10,7 +10,7 @@ March 2026
 
 ## Abstract
 
-Conservative Matrix Fields (CMFs), recently introduced by Raz et al. (2025) as a unifying structure underlying hundreds of formulas for mathematical constants such as π, are defined on a two-dimensional integer lattice with a commutativity condition on mixed lattice paths. In this note we investigate what happens when the underlying base is extended from the real integer lattice ℤ² to pairs of complex numbers over the Gaussian integers ℤ[i], and ask whether the resulting algebraic structure generates new mathematics. We show that the 4-periodicity of i under multiplication naturally stratifies lattice paths into two classes: commutative paths (4-step closure) and anticommutative paths (2-step closure), the latter being algebraically equivalent to spinors. The combined integrability conditions admit a natural realisation in the Pauli algebra, yielding a structure analogous to a superfield. We identify known constant pairs (even/odd zeta values, alternating/non-alternating series) as projections of this double-coverage structure, and derive predictions about an irrationality proof for ζ(5). A computational search for an Apéry-like degree-5 recurrence guided by the anticommutative CMF framework is described and partially executed, consistent with the structural predictions while identifying the remaining computational challenge.
+Conservative Matrix Fields (CMFs), recently introduced by Raz et al. (2025) as a unifying structure underlying hundreds of formulas for mathematical constants such as π, are defined on a two-dimensional integer lattice with a commutativity condition on mixed lattice paths. In this note we investigate what happens when the underlying base is extended from the real integer lattice ℤ² to pairs of complex numbers over the Gaussian integers ℤ[i], and ask whether the resulting algebraic structure generates new mathematics. We show that a CMF over the Gaussian integers naturally admits two distinct integrability conditions on the unit plaquette: S − T = 0 (commutative, the original Raz–Kaminer setting) and S + T = 0 (anticommutative, naturally realised in the Pauli algebra and algebraically equivalent to spinors). These two conditions define separate families that cannot coexist nontrivially in a single matrix field. We identify known constant pairs (even/odd zeta values, alternating/non-alternating series) as projections of this double-coverage structure, and derive predictions about an irrationality proof for ζ(5). A computational search for an Apéry-like degree-5 recurrence guided by the anticommutative CMF framework is described and partially executed, consistent with the structural predictions while identifying the remaining computational challenge.
 
 **Keywords:** Conservative Matrix Field, Riemann zeta function, irrationality, Clifford algebra, spinors, Apéry's theorem, continued fractions, Ramanujan Machine
 
@@ -28,13 +28,15 @@ The Ramanujan Machine group showed that by choosing polynomial functions f(x,y) 
 
 ---
 
-## 2. The Periodicity Structure of i and Path Classification
+## 2. Two Integrability Conditions on ℤ[i]
 
-The imaginary unit i satisfies the 4-cycle i¹=i, i²=−1, i³=−i, i⁴=1. When lattice paths are taken over ℤ[i] rather than ℤ², closed loops naturally acquire different periodicity.
+The imaginary unit i satisfies the 4-cycle i¹=i, i²=−1, i³=−i, i⁴=1. When lattice paths are taken over ℤ[i] rather than ℤ², the unit-plaquette closure admits two algebraically distinct integrability conditions, depending on whether the two paths around the plaquette have equal or opposite-sign matrix products.
 
-**Definition 2.1** (Path Classification). Let γ be an elementary square loop in the lattice. We say γ is a *commutative path* if the accumulated matrix product around γ equals the identity after 4 steps, and an *anticommutative path* if it equals minus the identity after 2 steps.
+**Definition 2.1** (Two integrability conditions). Setting
 
-Setting S(m,n) = M_y(m+1,n)·M_x(m,n) and T(m,n) = M_x(m,n+1)·M_y(m,n), the two integrability conditions are:
+$$S(m,n) = M_y(m+1,n)\cdot M_x(m,n) \quad \text{and} \quad T(m,n) = M_x(m,n+1)\cdot M_y(m,n)$$
+
+for the two products around a unit lattice plaquette, we call a CMF *commutative* if S − T = 0 throughout the lattice, and *anticommutative* if S + T = 0:
 
 $$S - T = 0 \quad \text{(commutative CMF)}; \qquad S + T = 0 \quad \text{(anticommutative CMF)}$$
 
@@ -88,7 +90,7 @@ The two path types create a double coverage of the constant landscape. Along a c
 
 **Table 1:** Known constant pairs as commutative/anticommutative CMF partners.
 
-The degree-drop pattern (π² paired with π) is structurally significant: commutative paths close after 4 steps (accumulating squared quantities), while anticommutative paths close after 2 steps (accumulating linear quantities). This correctly predicts that even zeta values ζ(2n) are paired with odd values ζ(2n−1). The even zeta values all have closed forms in powers of π: ζ(2)=π²/6, ζ(4)=π⁴/90, ζ(6)=π⁶/945. The odd zeta values ζ(3),ζ(5),ζ(7),… have no such forms — not accidentally, but because they live on anticommutative paths.
+The degree-drop pattern (π² paired with π) reflects the matrix algebra of the two sectors: in the anticommutative (Pauli) realisation, the step matrix M = rσ_z + pσ_x satisfies M² = (r²+p²)·I, so matrix-level squaring produces a scalar in (r²+p²) — a linear quantity in the polynomial entries. The commutative sector lacks this involutive structure; the natural accumulator is the full matrix product, which the Raz–Kaminer setting shows converges to π^(2n) for the appropriate hypergeometric step matrices. This is consistent with the observed pairing of even ζ(2n) (closed forms in powers of π) with odd ζ(2n−1) (no such forms — they live on the anticommutative sector), though the heuristic does not by itself constitute a proof.
 
 ---
 
