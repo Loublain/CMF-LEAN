@@ -36,6 +36,42 @@
 \usepackage{fvextra}
 
 % Enable pandoc's syntax-highlighted code-block environment.
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\providecommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\providecommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\providecommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{#1}}
+\providecommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\providecommand{\BuiltInTok}[1]{#1}
+\providecommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\providecommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{#1}}}
+\providecommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\providecommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{#1}}
+\providecommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\providecommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{#1}}
+\providecommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\providecommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{#1}}}
+\providecommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{#1}}}
+\providecommand{\ExtensionTok}[1]{#1}
+\providecommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{#1}}
+\providecommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{#1}}
+\providecommand{\ImportTok}[1]{#1}
+\providecommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
+\providecommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{#1}}}
+\providecommand{\NormalTok}[1]{#1}
+\providecommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{#1}}
+\providecommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{#1}}
+\providecommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{#1}}
+\providecommand{\RegionMarkerTok}[1]{#1}
+\providecommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\providecommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{#1}}
+\providecommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\providecommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{#1}}
+\providecommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{#1}}
+\providecommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{#1}}}}
 
 % Tighter spacing
 \setlength{\parskip}{0.5\baselineskip}
@@ -356,18 +392,43 @@ at z = it/2 it gives
 sinh(\(\pi\)t/2)). Dividing yields (t/2) coth(\(\pi\)t/2), matching the
 stated formula with w = it. \(\square\)
 
-\textbf{Remark} (structural obstruction underlying (b)). The identity
-\textbar{}\(\Gamma\)(z)\textbar{}\textsuperscript{2} =
-\(\Gamma(z)\Gamma\)(z̄) admits a closed form via integer translation and
-reflection precisely when Re(z) \(\in\) (1/2)\(\mathbb{Z}\), since only
-then does z̄ lie in the orbit of z under integer translation and
-reflection alone. For Re(w) \(\neq\) 0, both z = 1 + w/2 and z = 1/2 +
-w/2 fail this condition (0 \textless{} \textbar a\textbar/N \textless{}
-1 implies Re(z) \(\notin\) (1/2)\(\mathbb{Z}\)), so any such derivation
-must invoke the Gauss multiplication formula, which produces
-product-level rather than individual Gamma relations. The resulting
-system is under-determined; our conjecture is that no algebraic
-specialisation closes it, but we do not prove this.
+\textbf{Remark} (structural obstruction underlying (b)). The toolkit for closed-form evaluation of \textbar{}\(\Gamma(z)\)\textbar{}\textsuperscript{2} in \(\mathbb{R}\) consists of three classical \(\Gamma\)-identities --- reflection \(\Gamma(z)\Gamma(1-z) = \pi/\sin(\pi z)\), integer translation \(\Gamma(z+1) = z\Gamma(z)\), and Gauss multiplication
+
+\[\prod_{k=0}^{n-1} \Gamma(z + k/n) = (2\pi)^{(n-1)/2}\, n^{1/2 - nz}\, \Gamma(nz)\]
+
+--- applied to the identity \textbar{}\(\Gamma(z)\)\textbar{}\textsuperscript{2} = \(\Gamma(z)\Gamma(\bar{z})\).
+
+Reflection and translation alone connect \(\Gamma(z)\) to \(\Gamma(\bar{z})\)
+precisely when \(\bar{z}\) lies in the orbit of \(z\) under \(z \mapsto z+1\) and
+\(z \mapsto 1-z\), i.e.\ when \(\mathrm{Re}(z) \in \tfrac{1}{2}\mathbb{Z}\).
+For \(\mathrm{Re}(w) \neq 0\), both \(z = 1+w/2\) and \(z = 1/2+w/2\) fail this
+condition, so \textbar{}\(\Gamma(z)\)\textbar{}\textsuperscript{2} for
+these arguments is not reducible to elementary functions of \(\pi w\)
+by reflection and translation alone.
+
+Gauss multiplication at order \(n\) introduces \(n-1\) additional
+\(\Gamma\)-values \(\Gamma(z+k/n)\), each with \(\mathrm{Im}(z)\) unchanged. The
+reflection orbit then extends to include
+\((1-\mathrm{Re}(z)-k/n + \mathbb{Z})\) for \(k=0,\ldots,n-1\), so \(\bar{z}\)
+enters the orbit when \(\mathrm{Re}(z) \in \tfrac{1}{2n}\mathbb{Z}\), attainable
+at \(n=N\) for \(w = (a+bi)/N\). However, the Gauss identity is a single
+multiplicative relation among \(n+1\) \(\Gamma\)-values (including
+\(\Gamma(nz)\)), not an isolation of any individual
+\textbar{}\(\Gamma(z+k/n)\)\textbar{}\textsuperscript{2}. Inverting it
+to express \textbar{}\(\Gamma(z)\)\textbar{}\textsuperscript{2} alone
+reintroduces \(n-1\) other \(\Gamma\)-values at non-half-integer real
+parts, all subject to the same obstruction.
+
+An extended PSLQ search incorporating \(\cosh(q\pi)\) and
+\(\sinh(q\pi)\) at \(q = k/(2N)\) (the denominators arising from Gauss
+multiplication at order \(N\)) returns null at 100 decimal digits for
+\(\pi \in \{2+i,\, 3+2i,\, 4+i\}\), consistent with this obstruction.
+
+A rigorous non-existence proof --- ruling out closed forms in \(\mathbb{R}\) via
+\emph{any} algebraic identity, not merely the classical toolkit ---
+lies in the domain of transcendence theory and is outside the scope of
+this paper. We conjecture no closed form exists in \(\mathbb{R}\) but do not
+prove this.
 
 \textbf{Remark 3.5.1.} Proposition 3.5 concerns the individual Gamma
 ratio \(\Gamma\)(1+w/2)/\(\Gamma\)(1/2+w/2). The bilinear combination
@@ -597,7 +658,11 @@ via the Lerch formula (verified). Three search configurations were run:
   elements).
 \end{itemize}
 
-All 20 searches returned null. This is the expected outcome under the
+All 20 searches returned null. Extended bases incorporating
+\(\cosh(q\pi)\), \(\sinh(q\pi)\) at \(q = k/(2N)\) --- the denominators
+arising from Gauss multiplication at order \(N\) --- were also tested for
+\(\pi \in \{2+i,\, 3+2i,\, 4+i\}\) at 100 decimal digits and returned
+null (see Remark following Proposition 3.5). This is the expected outcome under the
 proposed Class III classification. Full details at
 github.com/Loublain/cmf-gaussian-primes {[}archived:
 doi:10.5281/zenodo.19670531{]}.

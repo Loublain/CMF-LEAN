@@ -94,7 +94,19 @@ which equals (1/2) coth(π/2) for π = ±i.
 
 *Proof of (a).* For w = it, t ∈ ℝ, the reflection formula Γ(z)Γ(1−z) = π/sin(πz) at z = 1/2 + it/2 gives |Γ(1/2+it/2)|² = π/cosh(πt/2); combined with Γ(z+1) = zΓ(z) at z = it/2 it gives |Γ(1+it/2)|² = πt/(2 sinh(πt/2)). Dividing yields (t/2) coth(πt/2), matching the stated formula with w = it. □
 
-**Remark** (structural obstruction underlying (b)). The identity |Γ(z)|² = Γ(z)Γ(z̄) admits a closed form via integer translation and reflection precisely when Re(z) ∈ (1/2)ℤ, since only then does z̄ lie in the orbit of z under integer translation and reflection alone. For Re(w) ≠ 0, both z = 1 + w/2 and z = 1/2 + w/2 fail this condition (0 < |a|/N < 1 implies Re(z) ∉ (1/2)ℤ), so any such derivation must invoke the Gauss multiplication formula, which produces product-level rather than individual Gamma relations. The resulting system is under-determined; our conjecture is that no algebraic specialisation closes it, but we do not prove this.
+**Remark** (structural obstruction underlying (b)). The toolkit for closed-form evaluation of |Γ(z)|² in ℝ consists of three classical Γ-identities — reflection Γ(z)Γ(1−z) = π/sin(πz), integer translation Γ(z+1) = zΓ(z), and Gauss multiplication
+
+$\displaystyle \prod_{k=0}^{n-1} \Gamma(z + k/n) = (2\pi)^{(n-1)/2}\, n^{1/2 - nz}\, \Gamma(nz)$
+
+— applied to the identity |Γ(z)|² = Γ(z)Γ(z̄).
+
+Reflection and translation alone connect Γ(z) to Γ(z̄) precisely when z̄ lies in the orbit of z under z ↦ z+1 and z ↦ 1−z, i.e. when Re(z) ∈ (1/2)ℤ. For Re(w) ≠ 0, both z = 1+w/2 and z = 1/2+w/2 fail this condition, so |Γ(z)|² for these arguments is not reducible to elementary functions of πw by reflection and translation alone.
+
+Gauss multiplication at order n introduces n−1 additional Γ-values Γ(z+k/n), each with Im(z) unchanged. The reflection orbit then extends to include (1−Re(z)−k/n + ℤ) for k=0,…,n−1, so z̄ enters the orbit when Re(z) ∈ (1/(2n))ℤ, attainable at n=N for w = (a+bi)/N. However, the Gauss identity is a single multiplicative relation among n+1 Γ-values (including Γ(nz)), not an isolation of any individual |Γ(z+k/n)|². Inverting it to express |Γ(z)|² alone reintroduces n−1 other Γ-values at non-half-integer real parts, all subject to the same obstruction.
+
+An extended PSLQ search incorporating cosh(qπ) and sinh(qπ) at q = k/(2N) (the denominators arising from Gauss multiplication at order N) returns null at 100 decimal digits for π ∈ {2+i, 3+2i, 4+i}, consistent with this obstruction.
+
+A rigorous non-existence proof — ruling out closed forms in ℝ via *any* algebraic identity, not merely the classical toolkit — lies in the domain of transcendence theory and is outside the scope of this paper. We conjecture no closed form exists in ℝ but do not prove this.
 
 **Remark 3.5.1.** Proposition 3.5 concerns the individual Gamma ratio Γ(1+w/2)/Γ(1/2+w/2). The bilinear combination with its complex conjugate that appears in Theorem 3.4 is elementary for every Gaussian prime π with N(π) ≥ 2 (it equals 1/(1/2+w̄/2), up to the real positive factor |Γ(1+w/2)/Γ(1/2+w/2)|²). This illustrates that the proposed Class III nature of the individual constants S_π is compatible with elementary closed forms for specific symmetric combinations. The proposed Class III classification in §6 applies to the individual S_π (and to their Hurwitz-zeta derivatives, by §6.5), not to every algebraic combination thereof.
 
@@ -183,7 +195,7 @@ for π ∈ {i, 1+i, 2+i, −(2+i), 3+2i, 4+i, 5+2i} at 120-digit precision (mpma
 - *Across-π at fixed n*: all 7 values {S_π(n)} + standard basis, for n = 0,…,4.
 - *Mixed*: all 35 values together with the standard basis (41 elements).
 
-All 20 searches returned null. This is the expected outcome under the proposed Class III classification. Full details at github.com/Loublain/cmf-gaussian-primes [archived: doi:10.5281/zenodo.19670531].
+All 20 searches returned null. Extended bases incorporating cosh(qπ), sinh(qπ) at q = k/(2N) — the denominators arising from Gauss multiplication at order N — were also tested for π ∈ {2+i, 3+2i, 4+i} at 100 decimal digits and returned null (see Remark following Proposition 3.5). This is the expected outcome under the proposed Class III classification. Full details at github.com/Loublain/cmf-gaussian-primes [archived: doi:10.5281/zenodo.19670531].
 
 **Conjecture 6.2.** The constants S_π are natural candidates for periods of an extended motivic category incorporating D-modules E(1)⊗K(a) with a ∈ ℚ(i)\ℚ — 'algebraic non-rational Kummer twists'. Such a category does not yet exist.
 
