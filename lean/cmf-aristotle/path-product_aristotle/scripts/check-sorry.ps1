@@ -38,6 +38,7 @@ $badLines = $auditOutput | Where-Object {
   $line = $_.ToString().Trim()
   $line -ne "" -and
   $line -notmatch "^#print" -and
+  $line -notmatch "does not depend on any axioms" -and
   -not ($allowedAxioms | Where-Object { $line -match [regex]::Escape($_) })
 }
 

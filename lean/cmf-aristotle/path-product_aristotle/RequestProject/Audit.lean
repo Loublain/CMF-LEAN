@@ -13,7 +13,7 @@ import RequestProject.SuperCMF
 import RequestProject.PauliCMF
 import RequestProject.ZetaPairs
 import RequestProject.Recurrence
-
+import RequestProject.CircleEnumeration
 /-!
 # Axiom Audit
 
@@ -72,3 +72,8 @@ Update this file whenever a new main theorem is added.
 #print axioms Prediction43_holds
 #print axioms zeta_neg4_zero
 #print axioms closest_in_search_space
+
+-- CircleEnumeration.lean
+#print axioms CircleEnumeration.plus_solutions
+#print axioms CircleEnumeration.minus_solutions
+#print axioms CircleEnumeration.theorem_3_4_exceptional_set
