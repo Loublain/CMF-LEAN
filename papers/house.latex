@@ -1,0 +1,145 @@
+% Preamble for CMF research papers (house style; matches cmf_zeta5_paper.tex /
+% cmf_constants_paper2.tex). Body/text: TeX Gyre Termes. Math: Latin Modern Math.
+% Code: DejaVu Sans Mono. Generated via pandoc + this template.
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+
+% xelatex with TeX Gyre Termes (Times equivalent) for body; LM Math for math.
+\usepackage{fontspec}
+\usepackage{unicode-math}
+\setmainfont{TeX Gyre Termes}
+\setmonofont{DejaVu Sans Mono}[Scale=0.85]
+\setmathfont{Latin Modern Math}[Scale=MatchLowercase]
+
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{etoolbox}
+\usepackage{makecell}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{framed}
+\usepackage{fvextra}
+
+% --- Prose Unicode that TeX Gyre Termes lacks. Blackboard/script via the math
+% font (weight-independent, matches \mathbb in the house bodies); sub/superscripts
+% via text; the integral sign is handled in preprocessing (wrapped as inline
+% math) because an active U+222B loops against unicode-math's integral. ---
+\usepackage{newunicodechar}
+\newunicodechar{ℤ}{\ensuremath{\mathbb{Z}}}
+\newunicodechar{ℚ}{\ensuremath{\mathbb{Q}}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{ℂ}{\ensuremath{\mathbb{C}}}
+\newunicodechar{𝔾}{\ensuremath{\mathbb{G}}}
+\newunicodechar{𝒪}{\ensuremath{\mathcal{O}}}
+\newunicodechar{ℓ}{\ensuremath{\ell}}
+\newunicodechar{∎}{\ensuremath{\blacksquare}}
+\newunicodechar{□}{\ensuremath{\square}}
+\newunicodechar{⊗}{\ensuremath{\otimes}}
+\newunicodechar{↦}{\ensuremath{\mapsto}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∉}{\ensuremath{\notin}}
+\newunicodechar{≡}{\ensuremath{\equiv}}
+\newunicodechar{₁}{\textsubscript{1}}
+\newunicodechar{₂}{\textsubscript{2}}
+\newunicodechar{₃}{\textsubscript{3}}
+\newunicodechar{₄}{\textsubscript{4}}
+\newunicodechar{₅}{\textsubscript{5}}
+\newunicodechar{ₙ}{\textsubscript{n}}
+\newunicodechar{⁶}{\textsuperscript{6}}
+\newunicodechar{′}{\textsuperscript{\ensuremath{\prime}}}
+\newunicodechar{‾}{\textsuperscript{\rule{0.45em}{0.35pt}}}
+\fvset{breaklines=true,breakanywhere=true}
+
+% Tighter spacing
+\setlength{\parskip}{0.5\baselineskip}
+\setlength{\parindent}{0pt}
+
+% Section heading style: bold, normal size, no auto-numbering (numbers are in
+% the markdown text, e.g. "## 1. Introduction").
+\usepackage{titlesec}
+\titleformat{\section}[block]{\normalsize\bfseries}{}{0pt}{}
+\titleformat{\subsection}[block]{\normalsize\bfseries}{}{0pt}{}
+\titleformat{\subsubsection}[block]{\normalsize\bfseries}{}{0pt}{}
+\titlespacing*{\section}{0pt}{1.2\baselineskip}{0.4\baselineskip}
+\titlespacing*{\subsection}{0pt}{1.0\baselineskip}{0.3\baselineskip}
+
+% Pandoc-required commands
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\providecommand{\pandocbounded}[1]{#1}
+
+% Custom centered title block
+\makeatletter
+\renewcommand\maketitle{%
+  \ifx\@title\@empty\else
+  \begingroup
+  \begin{center}
+    \LARGE\bfseries \@title \par
+  \end{center}
+  \ifx\@subtitle\@empty\else
+    \vspace{0.4em}
+    \begin{center}
+      \itshape \@subtitle \par
+    \end{center}
+  \fi
+  \vspace{0.6em}
+  \begin{center}
+    \@author \par
+    \vspace{0.2em}
+    Correspondence: \@correspondence \par
+    \vspace{0.2em}
+    \@date \par
+  \end{center}
+  \vspace{1em}
+  \endgroup
+  \fi
+}
+\def\@subtitle{}
+\newcommand{\subtitleX}[1]{\def\@subtitle{#1}}
+\def\@correspondence{}
+\newcommand{\correspondenceX}[1]{\def\@correspondence{#1}}
+\makeatother
+
+% Custom abstract: bold heading centered, indented body (quote block)
+\renewenvironment{abstract}{%
+  \begin{center}\bfseries Abstract\end{center}%
+  \begin{quote}\setlength{\parindent}{0pt}}{\end{quote}\medskip}
+
+% Keywords command
+\newcommand{\keywordsX}[1]{%
+  \begin{quote}\setlength{\parindent}{0pt}\textbf{Keywords:} #1\end{quote}}
+
+$highlighting-macros$
+
+% pandoc >=3.1.7 emits \def\LTcaptype{none} for caption-less longtables;
+% define the counter so \refstepcounter{none} does not error.
+\newcounter{none}
+
+\begin{document}
+
+\title{$title$}
+$if(subtitle)$\subtitleX{$subtitle$}$endif$
+\author{$author$}
+\correspondenceX{$correspondence$}
+\date{$date$}
+\maketitle
+
+$if(abstract)$
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+$if(keywords)$
+\keywordsX{$keywords$}
+$endif$
+
+$body$
+
+\end{document}
